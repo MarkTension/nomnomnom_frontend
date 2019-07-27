@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0fdb8c499fc39c115ecb047d14a1802b",
+    "revision": "16377243472bde9aecb792a293c3200a",
     "url": "/index.html"
   },
   {
-    "revision": "00fd3a9644004584e2e3",
+    "revision": "a6a03fbf705270ae67e8",
     "url": "/static/css/main.dcff65c3.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.98c5911a.chunk.js"
   },
   {
-    "revision": "00fd3a9644004584e2e3",
-    "url": "/static/js/main.603ca67d.chunk.js"
+    "revision": "a6a03fbf705270ae67e8",
+    "url": "/static/js/main.b4056249.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
@@ -24,12 +24,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/korean.e36e4e65.jpeg"
   },
   {
-    "revision": "4bbda675b91d91410cbba93be55db29f",
-    "url": "/static/media/mexican.4bbda675.jpeg"
+    "revision": "68594f703e57e63aaeb342b566e44398",
+    "url": "/static/media/logo_sq.68594f70.png"
   },
   {
-    "revision": "3c3a5221589e99838f748ad37db06e02",
-    "url": "/static/media/nomnom_logo.3c3a5221.png"
+    "revision": "4bbda675b91d91410cbba93be55db29f",
+    "url": "/static/media/mexican.4bbda675.jpeg"
   },
   {
     "revision": "8e5bb59ee17e7e2478f98189f5f0df63",
