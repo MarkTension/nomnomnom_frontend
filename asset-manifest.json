@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/nomnomnom_frontend/static/css/main.19637d4c.chunk.css",
-    "main.js": "/nomnomnom_frontend/static/js/main.e823f672.chunk.js",
-    "main.js.map": "/nomnomnom_frontend/static/js/main.e823f672.chunk.js.map",
-    "runtime~main.js": "/nomnomnom_frontend/static/js/runtime~main.ffdad5aa.js",
-    "runtime~main.js.map": "/nomnomnom_frontend/static/js/runtime~main.ffdad5aa.js.map",
-    "static/js/2.801e286f.chunk.js": "/nomnomnom_frontend/static/js/2.801e286f.chunk.js",
-    "static/js/2.801e286f.chunk.js.map": "/nomnomnom_frontend/static/js/2.801e286f.chunk.js.map",
-    "index.html": "/nomnomnom_frontend/index.html",
-    "precache-manifest.4f2d4bb4c56afd1cc8a35a8dde151f63.js": "/nomnomnom_frontend/precache-manifest.4f2d4bb4c56afd1cc8a35a8dde151f63.js",
-    "service-worker.js": "/nomnomnom_frontend/service-worker.js",
-    "static/css/main.19637d4c.chunk.css.map": "/nomnomnom_frontend/static/css/main.19637d4c.chunk.css.map",
-    "static/media/logo.jpeg": "/nomnomnom_frontend/static/media/logo.0aed1bb0.jpeg",
-    "static/media/nomnom_logo.png": "/nomnomnom_frontend/static/media/nomnom_logo.3c3a5221.png"
+    "main.css": "/static/css/main.19637d4c.chunk.css",
+    "main.js": "/static/js/main.4cc8f82b.chunk.js",
+    "main.js.map": "/static/js/main.4cc8f82b.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.2a44cda1.chunk.js": "/static/js/2.2a44cda1.chunk.js",
+    "static/js/2.2a44cda1.chunk.js.map": "/static/js/2.2a44cda1.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.852c4b823bda0e3f08507c39f4f46b21.js": "/precache-manifest.852c4b823bda0e3f08507c39f4f46b21.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.19637d4c.chunk.css.map": "/static/css/main.19637d4c.chunk.css.map",
+    "static/media/logo.jpeg": "/static/media/logo.0aed1bb0.jpeg",
+    "static/media/nomnom_logo.png": "/static/media/nomnom_logo.3c3a5221.png"
   }
 }
