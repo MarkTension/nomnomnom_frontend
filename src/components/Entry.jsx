@@ -36,10 +36,11 @@ const EmojiWrap = styled.span`
   display: inline-block;
   transition: transform 300ms ease-in-out;
   &:hover {
-    transform: rotate(20deg) scale(2);
+    transform: scale(2);
     cursor: pointer;
   }
 `;
+// rotate(20deg)
 
 class Entry extends React.Component {
   constructor(props) {
@@ -62,15 +63,18 @@ class Entry extends React.Component {
       >
         <Title>{this.props.title}</Title>
         <Text>{this.props.body}</Text>
+        <Text>{this.props.price}</Text>
         {this.state.active ? <center /> : null}
         <Flex
           justifyContent={["center", "left"]}
           flexDirection="row"
           flexWrap="wrap"
         />
-        <EmojiWrap>👎 </EmojiWrap>
+        <EmojiWrap>🤢 </EmojiWrap>
         <span style={{ color: "black" }}> / </span>
-        <EmojiWrap> 👍 </EmojiWrap>
+        <EmojiWrap> 😶 </EmojiWrap>
+        <span style={{ color: "black" }}> / </span>
+        <EmojiWrap> 😍 </EmojiWrap>
       </Wrapper>
     );
   }

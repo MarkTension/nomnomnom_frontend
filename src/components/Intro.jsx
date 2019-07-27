@@ -45,13 +45,14 @@ const Card = () => (
     </center>
     <Text>
       <p>
-        <em>Nom nom</em> is cooking up beautifully tasty restaurant
-        recommendations.
+        <em>NOMNOMNOM</em> is innovating the field of recommendations,
+        <br />by applying cutting edge ML techniques to explore Taste Profiles.{" "}
         <br />
-        <br />Work in progress by Amsterdam's greatest minds. <br />
         <br />
-        Scroll down to try some of that schweet oily recommendation-engine
-        saucey soup.
+        Preview the personalised Discovery engine below.
+        <br />
+        <br />
+        Interested? <a href="mailto:info@nomnomnom.ai">Send us an email!</a>
       </p>
     </Text>
     <Menu />

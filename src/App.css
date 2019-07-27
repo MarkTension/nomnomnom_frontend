@@ -24,6 +24,18 @@
   height: 100%;
 }
 
+a {
+  color: black;
+}
+
+#nounderline {
+  text-decoration: none;
+}
+
+#introbox {
+  align-content: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

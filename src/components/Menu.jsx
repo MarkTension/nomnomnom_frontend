@@ -81,18 +81,13 @@ const Menu = () => (
           >
             demo
           </Button>
-          <Button
-            onClick={() => {
-              animateScrollTo(document.querySelector("#design"));
-            }}
-          >
-            team
-          </Button>
 
           <Button
             onClick={() => animateScrollTo(document.querySelector("#footer"))}
           >
-            contact
+            <a id="nounderline" href="mailto:info@nomnomnom.ai">
+              contact
+            </a>
           </Button>
         </ButtonContainer>
       </Content>

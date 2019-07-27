@@ -35,58 +35,70 @@ const IntroBox = styled.div`
   /* border: 1px outset grey; */
 `;
 
+// const FixBox = Box.extend`
+// height: 100vh
+// `
+
 const Options = () => (
-  <IntroBox style={instroStyle} class="introBox">
-    <Flex id="demo" flexWrap="wrap" width="80%" style={{ marginBottom: 500 }}>
+  <IntroBox id="introbox" style={instroStyle} class="introBox">
+    <Flex id="demo" flexWrap="wrap" width="100%" style={{ marginBottom: 50 }}>
       <Box p={2} width={1} align="center">
         <Text>Select Restaurant</Text>
       </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 4]}>
+      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
         <Wrapper>
-          <Entry title="restaurant" body="description" />
-
           <Image
-            width={[1]}
+            height={"100px"}
             borderRadius={8}
-            src={require("../images/logo.jpeg")}
+            src={require("../images/restaurants/sea.jpeg")}
             alt="logo"
           />
+          <Entry title="Taste Of The Sea" body="Scottish" price="$80-90 p.p" />
         </Wrapper>
       </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 4]}>
+      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
         <Wrapper>
-          <Entry title="restaurant" body="description" />
-
           <Image
-            width={[1]}
+            height={"100px"}
             borderRadius={8}
-            src={require("../images/logo.jpeg")}
+            src={require("../images/restaurants/mexican.jpeg")}
             alt="logo"
           />
+
+          <Entry title="La Futura Pasada" body="Mexican" price="$20-50 p.p" />
         </Wrapper>
       </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 4]}>
+      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
         <Wrapper>
-          <Entry title="restaurant" body="description" />
-
           <Image
-            width={[1]}
+            height={"100px"}
             borderRadius={8}
-            src={require("../images/logo.jpeg")}
+            src={require("../images/restaurants/pizza.jpeg")}
             alt="logo"
           />
+          <Entry title="Pizza Di Papedie" body="Pizzeria" price="$10-40 p.p" />
         </Wrapper>
       </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 4]}>
+      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
         <Wrapper>
-          <Entry title="restaurant" body="description" />
-
           <Image
-            width={[1]}
+            height={"100px"}
             borderRadius={8}
-            src={require("../images/logo.jpeg")}
+            src={require("../images/restaurants/japanese.jpeg")}
             alt="logo"
           />
+          <Entry title="Kaba Bashi Gohan" body="Japanese" price="$40-65 p.p" />
+        </Wrapper>
+      </Box>
+      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
+        <Wrapper>
+          <Image
+            height={"100px"}
+            borderRadius={8}
+            src={require("../images/restaurants/korean.jpeg")}
+            alt="logo"
+          />
+          <Entry title="Yum-Yum-Yum BBQ" body="Korean BBQ" price="$20-55 p.p" />
         </Wrapper>
       </Box>
     </Flex>
