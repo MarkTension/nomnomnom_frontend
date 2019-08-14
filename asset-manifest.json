@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.ef0b565b.chunk.css",
-    "main.js": "/static/js/main.15311804.chunk.js",
-    "main.js.map": "/static/js/main.15311804.chunk.js.map",
+    "main.js": "/static/js/main.6707c580.chunk.js",
+    "main.js.map": "/static/js/main.6707c580.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
     "static/js/2.1ad28cf3.chunk.js": "/static/js/2.1ad28cf3.chunk.js",
     "static/js/2.1ad28cf3.chunk.js.map": "/static/js/2.1ad28cf3.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.dcefe8e7f50b501743957276260ab920.js": "/precache-manifest.dcefe8e7f50b501743957276260ab920.js",
+    "precache-manifest.0f4e698dbce5522fdc0f101680b301cf.js": "/precache-manifest.0f4e698dbce5522fdc0f101680b301cf.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.ef0b565b.chunk.css.map": "/static/css/main.ef0b565b.chunk.css.map",
     "static/media/korean.jpeg": "/static/media/korean.e36e4e65.jpeg",
     "static/media/logo_sq.png": "/static/media/logo_sq.68594f70.png",
-    "static/media/mexican.jpeg": "/static/media/mexican.4bbda675.jpeg",
+    "static/media/mexican.png": "/static/media/mexican.221265fe.png",
     "static/media/pizza.jpeg": "/static/media/pizza.8e5bb59e.jpeg",
-    "static/media/sea.jpeg": "/static/media/sea.3e574035.jpeg"
+    "static/media/scott.png": "/static/media/scott.c03839a6.png"
   }
 }
