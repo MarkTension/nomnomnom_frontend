@@ -1,20 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.ef0b565b.chunk.css",
-    "main.js": "/static/js/main.6707c580.chunk.js",
-    "main.js.map": "/static/js/main.6707c580.chunk.js.map",
+    "main.css": "/static/css/main.843f5b06.chunk.css",
+    "main.js": "/static/js/main.52c9aaee.chunk.js",
+    "main.js.map": "/static/js/main.52c9aaee.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.1ad28cf3.chunk.js": "/static/js/2.1ad28cf3.chunk.js",
-    "static/js/2.1ad28cf3.chunk.js.map": "/static/js/2.1ad28cf3.chunk.js.map",
+    "static/js/2.ef3d64aa.chunk.js": "/static/js/2.ef3d64aa.chunk.js",
+    "static/js/2.ef3d64aa.chunk.js.map": "/static/js/2.ef3d64aa.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.0f4e698dbce5522fdc0f101680b301cf.js": "/precache-manifest.0f4e698dbce5522fdc0f101680b301cf.js",
+    "precache-manifest.a2e002c469b29905275e0b2b51c0190f.js": "/precache-manifest.a2e002c469b29905275e0b2b51c0190f.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.ef0b565b.chunk.css.map": "/static/css/main.ef0b565b.chunk.css.map",
+    "static/css/main.843f5b06.chunk.css.map": "/static/css/main.843f5b06.chunk.css.map",
     "static/media/korean.jpeg": "/static/media/korean.e36e4e65.jpeg",
     "static/media/logo_sq.png": "/static/media/logo_sq.68594f70.png",
     "static/media/mexican.png": "/static/media/mexican.221265fe.png",
     "static/media/pizza.jpeg": "/static/media/pizza.8e5bb59e.jpeg",
-    "static/media/scott.png": "/static/media/scott.c03839a6.png"
+    "static/media/scott.png": "/static/media/scott.c03839a6.png",
+    "static/media/team_daniel.png": "/static/media/team_daniel.ab023b14.png",
+    "static/media/team_hugo.png": "/static/media/team_hugo.e01c60eb.png",
+    "static/media/team_lucas.png": "/static/media/team_lucas.d12687b7.png",
+    "static/media/team_mark.png": "/static/media/team_mark.73d401f2.png"
   }
 }
