@@ -47,9 +47,9 @@ const Button = styled.div`
   opacity: 1;
   font-size: 1.6rem;
   cursor: pointer;
-  transition: transform 300ms ease-in-out;
+  transition: transform 200ms ease-in-out;
   &:hover {
-    transform: rotate(90deg);
+    transform: scale(1.2);
     /* font-weight: 200; */
     /* text-decoration: underline; */
   }

@@ -1,7 +1,8 @@
 import React from "react";
-import logo from "../images/logo_sq.png";
+import logo from "../images/nomnom_logo.png";
 import "../App.css";
 import styled from "styled-components";
+import { Box, Flex, Image } from "rebass";
 import Menu from "./Menu";
 
 const Text = styled.h2`
@@ -17,7 +18,7 @@ const IntroBox = styled.div`
   justify-content: center;
   alignitems: "center";
   background: white;
-  width: 60%;
+  /* border: 1px outset grey; */
 `;
 
 const Image_container = styled.div`
@@ -36,10 +37,10 @@ const instroStyle = {
 };
 
 const Card = () => (
-  <IntroBox style={instroStyle} className="introBox">
+  <IntroBox style={instroStyle} class="introBox">
     <center>
       <Image_container>
-        <img src={logo} className="App-logo" alt="logo" width="300px" />
+        <img src={logo} className="App-logo" alt="logo" width="200px" />
       </Image_container>
     </center>
     <Text>

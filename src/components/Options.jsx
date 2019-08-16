@@ -1,23 +1,23 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import "../App.css";
-import styled from "styled-components";
-// import Work_entry from "./Work_entry";
-// import entry from "./Entries"; // this is an array with all work entries
-import { Box, Flex, Image } from "rebass";
-import Entry from "./Entry";
-
-const Wrapper = styled.div`
-  padding: 1em;
-  background: snow;
-  border-radius: 25px;
-  :hover {
-    background: Seashell;
-  }
-`;
+import styled, { keyframes } from "styled-components";
+import { Box, Flex } from "rebass";
+import Entry from "./Entry"; // this is the card for each restaurant
+import entries from "./Entries"; // this is an initial test array with all restuarants
+import logo from "../images/logo_sq.png";
 
 const Text = styled.h2`
   font-family: "Raleway", sans-serif;
   font-weight: 300;
+  text-align: center;
+  color: black;
+`;
+
+const Text_sub = styled.h2`
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 1em;
   text-align: center;
   color: black;
 `;
@@ -32,77 +32,137 @@ const IntroBox = styled.div`
   justify-content: center;
   alignitems: "center";
   background: white;
-  /* border: 1px outset grey; */
+  width: 80%;
 `;
 
-// const FixBox = Box.extend`
-// height: 100vh
-// `
+const Button = styled.button`
+  outline: none;
+  background: snow;
+  color: "palevioletred";
+  font-size: 1em;
+  font-weight: 300;
+  color: DarkSlateGrey
+  margin: 1em;
+  padding: 0.25em 1em;
+  border-radius: 20px;
+  :hover {
+    background: Seashell;
+  }
+`;
 
-const Options = () => (
-  <IntroBox id="introbox" style={instroStyle} class="introBox">
-    <Flex id="demo" flexWrap="wrap" width="100%" style={{ marginBottom: 50 }}>
-      <Box p={2} width={1} align="center">
-        <Text>Select Restaurant</Text>
-      </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
-        <Wrapper>
-          <Image
-            height={"100px"}
-            borderRadius={8}
-            src={require("../images/restaurants/sea.jpeg")}
-            alt="logo"
-          />
-          <Entry title="Taste Of The Sea" body="Scottish" price="$80-90 p.p" />
-        </Wrapper>
-      </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
-        <Wrapper>
-          <Image
-            height={"100px"}
-            borderRadius={8}
-            src={require("../images/restaurants/mexican.jpeg")}
-            alt="logo"
-          />
+const imageStyle = {
+  marginBottom: "10%",
+  height: "300px",
+  opacity: "0.1"
+};
 
-          <Entry title="La Futura Pasada" body="Mexican" price="$20-50 p.p" />
-        </Wrapper>
-      </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
-        <Wrapper>
-          <Image
-            height={"100px"}
-            borderRadius={8}
-            src={require("../images/restaurants/pizza.jpeg")}
-            alt="logo"
-          />
-          <Entry title="Pizza Di Papedie" body="Pizzeria" price="$10-40 p.p" />
-        </Wrapper>
-      </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
-        <Wrapper>
-          <Image
-            height={"100px"}
-            borderRadius={8}
-            src={require("../images/restaurants/japanese.jpeg")}
-            alt="logo"
-          />
-          <Entry title="Kaba Bashi Gohan" body="Japanese" price="$40-65 p.p" />
-        </Wrapper>
-      </Box>
-      <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
-        <Wrapper>
-          <Image
-            height={"100px"}
-            borderRadius={8}
-            src={require("../images/restaurants/korean.jpeg")}
-            alt="logo"
-          />
-          <Entry title="Yum-Yum-Yum BBQ" body="Korean BBQ" price="$20-55 p.p" />
-        </Wrapper>
-      </Box>
-    </Flex>
-  </IntroBox>
-);
+function makeComponents(state) {
+  let components = [];
+
+  for (let i = 0; i < 5; i++) {
+    components.push(
+      <Entry
+        title={state.list[i].title}
+        body={state.list[i].body}
+        price={state.list[i].price}
+        image={state.list[i].image}
+        new={true}
+      />
+    );
+  }
+  return components;
+}
+
+class Options extends React.Component {
+  constructor(props) {
+    super(props);
+    this.poo = 0;
+    this.state = {
+      list: entries,
+      show: false,
+      show_load: true
+    };
+
+    // make initial list of components
+    this.components = makeComponents(this.state);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    // copy old state
+    let prevState = this.state;
+    // change copy
+    prevState.list.sort(function() {
+      return 0.5 - Math.random();
+    });
+    // apply to new state
+    this.setState({ state: prevState });
+
+    // TODO: change timeout for API request
+    let reloadComponents = new Promise((resolve, reject) => {
+      this.setState({ show_load: true });
+      setTimeout(function() {
+        resolve("Success!");
+      }, 800);
+    });
+
+    this.setState({ show: false });
+    reloadComponents.then(successMessage => {
+      console.log("Yay! " + successMessage);
+      this.setState({ show: true });
+      this.setState({ show_load: false });
+    });
+
+    this.components = makeComponents(this.state);
+  }
+
+  render() {
+    return (
+      <IntroBox id="introbox" style={instroStyle} className="introBox">
+        <Flex
+          id="demo"
+          flexWrap="wrap"
+          width="100%"
+          style={{ marginBottom: 50 }}
+        >
+          <Box p={2} width={1} align="center" ref="umountable">
+            <Text>Discovery Demo</Text>
+            <Text_sub>
+              Specify preference with emojis <br /> Hit{" "}
+              <em>Generate Restaurants</em> to discover further
+            </Text_sub>
+            <Button onClick={this.handleClick}> Generate restaurants </Button>
+            <Box p={[1]} width={[1]}>
+              {this.state.show_load && (
+                <img
+                  src={logo}
+                  className="fadein"
+                  alt="logo"
+                  style={imageStyle}
+                />
+              )}
+            </Box>
+          </Box>
+          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+            {this.state.show && this.components[0]}
+          </Box>
+          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+            {this.state.show && this.components[1]}
+          </Box>
+          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+            {this.state.show && this.components[2]}
+          </Box>
+          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+            {this.state.show && this.components[3]}
+          </Box>
+          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+            {this.state.show && this.components[4]}
+          </Box>
+        </Flex>
+      </IntroBox>
+    );
+  }
+}
 
 export default Options;

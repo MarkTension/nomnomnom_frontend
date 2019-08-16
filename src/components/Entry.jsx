@@ -1,9 +1,8 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import "../App.css";
 import styled from "styled-components";
-import { Box, Flex, Image } from "rebass";
-// import git from "../images/github_im.png";
-// import link from "../images/link_icon.png";
+import { Flex, Image } from "rebass";
 
 const Title = styled.h1`
   font-family: "Raleway", sans-serif;
@@ -23,29 +22,43 @@ const Text = styled.h6`
 `;
 
 const Wrapper = styled.section`
+  padding: 1em;
   padding-bottom: 2em;
-  padding-left: 0em;
-  padding-right: 0em;
-  border-radius: 8px;
+  background: snow;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-radius: 20px;
   :hover {
     background: Seashell;
   }
 `;
 
 const EmojiWrap = styled.span`
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: 1.5em
   display: inline-block;
-  transition: transform 300ms ease-in-out;
+  transition: transform 200ms ease-in-out;
   &:hover {
-    transform: scale(2);
     cursor: pointer;
   }
 `;
-// rotate(20deg)
 
 class Entry extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { active: false };
+    this.state = {
+      active: false,
+      preference: 1,
+      new: this.props.new,
+      didMount: false
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ didMount: true });
+    }, 0);
   }
 
   handleActive() {
@@ -53,33 +66,60 @@ class Entry extends React.Component {
   }
 
   render() {
+    const { didMount } = this.state;
     // And from here
-    console.log(this.state.active);
     return (
       <Wrapper
+        className={`fade-in ${didMount && "visible"}`}
         onMouseEnter={() => this.handleActive()}
         onMouseLeave={() => this.setState({ active: false })}
         id="entry_wrapper"
       >
+        <Image
+          max-height={"100px"}
+          max-width={"100px"}
+          borderRadius={8}
+          src={this.props.image}
+          alt="logo"
+        />
         <Title>{this.props.title}</Title>
         <Text>{this.props.body}</Text>
         <Text>{this.props.price}</Text>
-        {this.state.active ? <center /> : null}
         <Flex
           justifyContent={["center", "left"]}
           flexDirection="row"
           flexWrap="wrap"
         />
-        <EmojiWrap>🤢 </EmojiWrap>
-        <span style={{ color: "black" }}> / </span>
-        <EmojiWrap> 😶 </EmojiWrap>
-        <span style={{ color: "black" }}> / </span>
-        <EmojiWrap> 😍 </EmojiWrap>
+        <EmojiWrap
+          id="emo0"
+          onClick={() => this.setState({ preference: 0 })}
+          style={{
+            transform: this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
+          }}
+        >
+          🤢
+        </EmojiWrap>
+        <EmojiWrap
+          id="emo1"
+          onClick={() => this.setState({ preference: 1 })}
+          style={{
+            transform: this.state.preference === 1 ? "scale(1.5)" : "scale(1)"
+          }}
+        >
+          😶
+        </EmojiWrap>
+        <EmojiWrap
+          id="emo2"
+          onClick={() => this.setState({ preference: 2 })}
+          style={{
+            transform: this.state.preference === 2 ? "scale(1.5)" : "scale(1)"
+          }}
+        >
+          😍
+        </EmojiWrap>
       </Wrapper>
     );
   }
 }
-// <Emoji symbol="👍" label="sheep" />
-// <span style={{ color: "black" }}> / </span>
-// <Emoji symbol="👎" label="sheep" />
+
 export default Entry;
