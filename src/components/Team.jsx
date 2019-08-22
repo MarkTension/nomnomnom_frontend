@@ -93,13 +93,13 @@ class Team extends React.Component {
           <Box p={[1]} width={[1, 1 / 2]}>
             <Image src={mark} style={imageStyle} />
             <Text_sub>
-              Mark Tensen, <em>The Architect</em>
+              Mark Tensen, <em>The Macgyver</em>
             </Text_sub>
           </Box>
           <Box p={[1]} width={[1, 1 / 2]}>
             <Image src={daniel} style={imageStyle} />
             <Text_sub>
-              Daniël Koudijs, <em>The Manager</em>
+              Daniël Koudijs, <em>The Operator</em>
             </Text_sub>
           </Box>
         </Flex>
