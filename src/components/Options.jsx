@@ -58,14 +58,24 @@ const imageStyle = {
 
 function makeComponents(state) {
   let components = [];
-
   for (let i = 0; i < 5; i++) {
     components.push(
       <Entry
-        title={state.list[i].title}
-        body={state.list[i].body}
-        price={state.list[i].price}
-        image={state.list[i].image}
+        title={state.list[i].name}
+        cuisine={state.list[i].cuisine}
+        price={state.list[i].price_min}
+        image={state.list[i].z_image}
+        specific={[
+          state.list[i].vegan,
+          state.list[i].vegetarisch,
+          state.list[i].alcohol
+        ]}
+        type={[
+          state.list[i].Type_Ontbijt,
+          state.list[i].Type_Brunch,
+          state.list[i].Type_Lunch,
+          state.list[i].Type_Diner
+        ]}
         new={true}
       />
     );
@@ -85,36 +95,56 @@ class Options extends React.Component {
 
     // make initial list of components
     this.components = makeComponents(this.state);
-
+    // handle click
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
     // copy old state
-    let prevState = this.state;
+    var prevState = this.state;
     // change copy
     prevState.list.sort(function() {
       return 0.5 - Math.random();
     });
-    // apply to new state
-    this.setState({ state: prevState });
 
-    // TODO: change timeout for API request
-    let reloadComponents = new Promise((resolve, reject) => {
-      this.setState({ show_load: true });
-      setTimeout(function() {
-        resolve("Success!");
-      }, 800);
-    });
+    // jsonify the response
+    this.get_response = function(response) {
+      if (response.ok) {
+        this.setState({ show_load: true });
+        return response.json();
+      }
+      // return response.json();
+      console.log("Network response was not ok.");
+    };
+    // put json into new state
+    this.unpack_response = function(restaurants) {
+      var newstate = [];
+      // update state
+      for (var i in restaurants) {
+        if (restaurants.hasOwnProperty(i)) {
+          newstate.push(restaurants[i]);
+        }
+      }
+      return newstate;
+    };
+    // put json into new state
+    this.update_state = function(newstate) {
+      this.setState({ list: newstate });
+      // finally make components
+      this.components = makeComponents(this.state);
 
-    this.setState({ show: false });
-    reloadComponents.then(successMessage => {
-      console.log("Yay! " + successMessage);
-      this.setState({ show: true });
       this.setState({ show_load: false });
-    });
+      this.setState({ show: true });
+    };
 
-    this.components = makeComponents(this.state);
+    // fetch new state from API
+    // GET request
+    fetch("http://localhost:5000/restaurant")
+      .then(response => this.get_response(response)) // verify response success
+      .then(response => this.unpack_response(response)) // unpack the dictionary
+      .then(response => this.update_state(response)); // update the state
+
+    // apply to new state
   }
 
   render() {

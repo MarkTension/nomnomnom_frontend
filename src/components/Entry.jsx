@@ -76,15 +76,34 @@ class Entry extends React.Component {
         id="entry_wrapper"
       >
         <Image
-          max-height={"100px"}
+          height={"140px"}
           max-width={"100px"}
           borderRadius={8}
           src={this.props.image}
           alt="logo"
         />
         <Title>{this.props.title}</Title>
-        <Text>{this.props.body}</Text>
-        <Text>{this.props.price}</Text>
+        <Text>
+          <b>Cuisine: </b>
+          {this.props.cuisine.toString().replace(/,/g, " ")}
+        </Text>
+        <Text>
+          <b>dieet-voorkeur: </b>
+          {this.props.specific[0] ? "veganistisch " : " "}
+          {this.props.specific[1] ? "vegetarisch " : " "}
+          <Text />
+          {"\n"} <b>Tijdstip: </b>
+          {this.props.type[0] ? "breakfast " : " "}
+          {this.props.type[1] ? "brunch " : " "}
+          {this.props.type[2] ? "lunch " : " "}
+          {this.props.type[3] ? "dinner " : " "}
+        </Text>
+        <Text />
+        <Text>
+          {this.props.price == 0 ? "💲 " : ""}
+          {this.props.price == 1 ? "💲💲 " : ""}
+          {this.props.price == 2 ? "💲💲💲 " : ""}
+        </Text>
         <Flex
           justifyContent={["center", "left"]}
           flexDirection="row"
