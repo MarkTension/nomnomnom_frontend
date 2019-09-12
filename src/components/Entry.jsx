@@ -8,22 +8,35 @@ const Title = styled.h1`
   font-family: "Raleway", sans-serif;
   font-style: slim;
   font-weight: 300;
-  font-size: 1.1em;
+  font-size: 0.8em;
   text-align: center;
   color: black;
+  min-height: 2em;
+  max-height: 2em;
 `;
 
 const Text = styled.h6`
   font-family: "Raleway", sans-serif;
-  font-weight: 300;
-  font-style: thin100;
-  text-align: justify;
+  font-weight: 500;
+  text-align: center;
   color: black;
+  font-size: 0.7em;
+  height: 5em;
+`;
+
+const TextPrice = styled.h5`
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: black;
+  height: 1.5em;
 `;
 
 const Wrapper = styled.section`
-  padding: 1em;
-  padding-bottom: 2em;
+  padding-left: 0em;
+  padding-right: 0em;
+  padding-bottom: 1em;
+  padding-top: 1em;
   background: snow;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -67,7 +80,7 @@ class Entry extends React.Component {
 
   render() {
     const { didMount } = this.state;
-    // And from here
+
     return (
       <Wrapper
         className={`fade-in ${didMount && "visible"}`}
@@ -76,7 +89,7 @@ class Entry extends React.Component {
         id="entry_wrapper"
       >
         <Image
-          height={"140px"}
+          height={"190px"}
           max-width={"100px"}
           borderRadius={8}
           src={this.props.image}
@@ -84,26 +97,31 @@ class Entry extends React.Component {
         />
         <Title>{this.props.title}</Title>
         <Text>
-          <b>Cuisine: </b>
-          {this.props.cuisine.toString().replace(/,/g, " ")}
+          {this.props.cuisine.toString().replace(/,/g, " + ")}
+
+          {this.props.specific[0] == 1 || this.props.specific[1] == 1
+            ? " + "
+            : ""}
+
+          <green>{this.props.specific[0] ? "Vegan🌱 " : "\n"} </green>
+          {this.props.specific[0] == 1 && this.props.specific[1] == 1
+            ? " + "
+            : ""}
+          <green>{this.props.specific[1] ? " Vegetarian🌱 " : "\n"} </green>
+          {this.props.specific[2] == 1 || this.props.specific[3] == 1
+            ? " + "
+            : ""}
+          {this.props.specific[2] ? " 🍷🍺 " : "\n"}
+          {this.props.specific[2] == 1 && this.props.specific[3] == 1
+            ? " + "
+            : ""}
+          {this.props.specific[3] ? " Outdoor-seating☀️⛱️ " : "\n"}
         </Text>
-        <Text>
-          <b>dieet-voorkeur: </b>
-          {this.props.specific[0] ? "veganistisch " : " "}
-          {this.props.specific[1] ? "vegetarisch " : " "}
-          <Text />
-          {"\n"} <b>Tijdstip: </b>
-          {this.props.type[0] ? "breakfast " : " "}
-          {this.props.type[1] ? "brunch " : " "}
-          {this.props.type[2] ? "lunch " : " "}
-          {this.props.type[3] ? "dinner " : " "}
-        </Text>
-        <Text />
-        <Text>
+        <TextPrice>
           {this.props.price == 0 ? "💲 " : ""}
           {this.props.price == 1 ? "💲💲 " : ""}
           {this.props.price == 2 ? "💲💲💲 " : ""}
-        </Text>
+        </TextPrice>
         <Flex
           justifyContent={["center", "left"]}
           flexDirection="row"
@@ -116,7 +134,7 @@ class Entry extends React.Component {
             transform: this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
           }}
         >
-          🤢
+          🙁
         </EmojiWrap>
         <EmojiWrap
           id="emo1"
@@ -125,7 +143,7 @@ class Entry extends React.Component {
             transform: this.state.preference === 1 ? "scale(1.5)" : "scale(1)"
           }}
         >
-          😶
+          🤔
         </EmojiWrap>
         <EmojiWrap
           id="emo2"

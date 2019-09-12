@@ -69,7 +69,7 @@ class Team extends React.Component {
     return (
       <IntroBox id="introbox" style={instroStyle} className="introBox">
         <Flex
-          id="demo"
+          id="team"
           flexWrap="wrap"
           width="100%"
           style={{ marginBottom: "0px" }}

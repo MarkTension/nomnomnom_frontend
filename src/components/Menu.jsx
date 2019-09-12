@@ -83,6 +83,14 @@ const Menu = () => (
           </Button>
 
           <Button
+            onClick={() => {
+              animateScrollTo(document.querySelector("#team"));
+            }}
+          >
+            team
+          </Button>
+
+          <Button
             onClick={() => animateScrollTo(document.querySelector("#footer"))}
           >
             <a id="nounderline" href="mailto:info@nomnomnom.ai">

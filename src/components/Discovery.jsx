@@ -22,10 +22,19 @@ const Text_sub = styled.h2`
   color: black;
 `;
 
+const Text_sub2 = styled.h2`
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 0.5em;
+  text-align: center;
+  color: black;
+`;
+
 const instroStyle = {
-  marginTop: "5%",
   padding: "5%",
-  height: "100%"
+  height: "100%",
+  marginLeft: "5%",
+  marginright: "5%"
 };
 
 const IntroBox = styled.div`
@@ -56,6 +65,11 @@ const imageStyle = {
   opacity: "0.1"
 };
 
+const logoStyle = {
+  marginBottom: "0%",
+  height: "150px"
+};
+
 function makeComponents(state) {
   let components = [];
   for (let i = 0; i < 5; i++) {
@@ -68,7 +82,8 @@ function makeComponents(state) {
         specific={[
           state.list[i].vegan,
           state.list[i].vegetarisch,
-          state.list[i].alcohol
+          state.list[i].alcohol,
+          state.list[i].outside
         ]}
         type={[
           state.list[i].Type_Ontbijt,
@@ -83,7 +98,7 @@ function makeComponents(state) {
   return components;
 }
 
-class Options extends React.Component {
+class Discovery extends React.Component {
   constructor(props) {
     super(props);
     this.poo = 0;
@@ -97,16 +112,11 @@ class Options extends React.Component {
     this.components = makeComponents(this.state);
     // handle click
     this.handleClick = this.handleClick.bind(this);
+
+    this.handleClick();
   }
 
   handleClick() {
-    // copy old state
-    var prevState = this.state;
-    // change copy
-    prevState.list.sort(function() {
-      return 0.5 - Math.random();
-    });
-
     // jsonify the response
     this.get_response = function(response) {
       if (response.ok) {
@@ -127,6 +137,7 @@ class Options extends React.Component {
       }
       return newstate;
     };
+
     // put json into new state
     this.update_state = function(newstate) {
       this.setState({ list: newstate });
@@ -138,16 +149,48 @@ class Options extends React.Component {
     };
 
     // fetch new state from API
-    // GET request
-    fetch("http://localhost:5000/restaurant")
+    // GET request from our server (currently 5 random restaurants)
+    // fetch(
+    //   "http://nomnomn2.vfmbcebmmc.eu-west-2.elasticbeanstalk.com/restaurant"
+    // )
+    //   .then(response => this.get_response(response)) // verify response success
+    //   .then(response => this.unpack_response(response)) // unpack the dictionary
+    //   .then(response => this.update_state(response)); // update the state
+    // // apply to new state
+
+    fetch(
+      "http://nomnomv2.4jf3fe3e3p.eu-west-2.elasticbeanstalk.com/restaurant",
+      {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.props.filters)
+      }
+    ) //this.state.filters
       .then(response => this.get_response(response)) // verify response success
       .then(response => this.unpack_response(response)) // unpack the dictionary
-      .then(response => this.update_state(response)); // update the state
+      .then(response => this.update_state(response)); // update the state;
+  }
 
-    // apply to new state
+  reactThis(event) {
+    this.props.setFilters(false);
+
+    event.preventDefault();
   }
 
   render() {
+    // show filters
+    let filter = this.props.filters;
+    const range = this.props.filters.range;
+
+    delete filter["show"];
+    // delete filter["range"];
+
+    for (let key in filter) {
+      if (filter[key] == 1 && key != "range") {
+        var filter_choice = key;
+      }
+    }
+
     return (
       <IntroBox id="introbox" style={instroStyle} className="introBox">
         <Flex
@@ -156,13 +199,23 @@ class Options extends React.Component {
           width="100%"
           style={{ marginBottom: 50 }}
         >
-          <Box p={2} width={1} align="center" ref="umountable">
-            <Text>Discovery Demo</Text>
+          <Box p={[1]} align="center" width={[1 / 3]}>
+            <img src={logo} className="fadein" alt="logo" style={logoStyle} />
+          </Box>
+          <Box p={[1]} width={[1 / 3]}>
             <Text_sub>
-              Specify preference with emojis <br /> Hit{" "}
-              <em>Generate Restaurants</em> to discover further
+              Discovering <b>{filter_choice}</b> within <b>{range} km</b>
             </Text_sub>
-            <Button onClick={this.handleClick}> Generate restaurants </Button>
+            <Button onClick={this.reactThis.bind(this)}> Go Back </Button>
+          </Box>
+
+          <Box p={[1]} width={[1 / 3]}>
+            <Text_sub>To discover further:</Text_sub>
+
+            <Button onClick={this.handleClick}> Next restaurants </Button>
+          </Box>
+
+          <Box p={2} width={1} align="center" ref="umountable">
             <Box p={[1]} width={[1]}>
               {this.state.show_load && (
                 <img
@@ -189,10 +242,19 @@ class Options extends React.Component {
           <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
             {this.state.show && this.components[4]}
           </Box>
+          <Box p={2} width={1} align="center">
+            <Text_sub>Specify preference with emoji's*</Text_sub>
+            <Text_sub2>
+              <i>
+                *This trains our algorithms to come up with better matching
+                discoveries in the next round
+              </i>
+            </Text_sub2>
+          </Box>
         </Flex>
       </IntroBox>
     );
   }
 }
 
-export default Options;
+export default Discovery;

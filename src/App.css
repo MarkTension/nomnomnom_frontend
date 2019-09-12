@@ -36,6 +36,10 @@ a {
   color: black;
 }
 
+green {
+  color: darkGreen;
+}
+
 #nounderline {
   text-decoration: none;
 }
