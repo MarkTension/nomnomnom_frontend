@@ -4,8 +4,10 @@ import "../App.css";
 import styled, { keyframes } from "styled-components";
 import { Box, Flex } from "rebass";
 import Entry from "./Entry"; // this is the card for each restaurant
+import Reservation from "./Reservation"; // this is the card for each restaurant
 import entries from "./Entries"; // this is an initial test array with all restuarants
 import logo from "../images/logo_sq.png";
+import animateScrollTo from "animated-scroll-to";
 
 const Text = styled.h2`
   font-family: "Raleway", sans-serif;
@@ -58,6 +60,22 @@ const Button = styled.button`
     background: Seashell;
   }
 `;
+const Button2 = styled.button`
+  /* outline: none; */
+  border: none;
+  background: snow;
+  color: "palevioletred";
+  font-size: 1em;
+  font-weight: 300;
+  color: DarkSlateGrey
+  margin: 0.1em;
+  width: 100%;
+  padding: 0.25em 1em;
+  border-radius: 10px;
+  :hover {
+    background: Seashell;
+  }
+`;
 
 const imageStyle = {
   marginBottom: "10%",
@@ -91,7 +109,7 @@ function makeComponents(state) {
           state.list[i].Type_Lunch,
           state.list[i].Type_Diner
         ]}
-        new={true}
+        reservation={reserve => this.setState({ reservation: i, show: false })}
       />
     );
   }
@@ -101,15 +119,20 @@ function makeComponents(state) {
 class Discovery extends React.Component {
   constructor(props) {
     super(props);
-    this.poo = 0;
     this.state = {
       list: entries,
       show: false,
-      show_load: true
+      show_load: true,
+      reservation: false // reservation pressed?
     };
+    this.cycle = 0; // tracking round number
+    this.reservoir = {}; // storing each restaurant state
+
+    makeComponents = makeComponents.bind(this);
 
     // make initial list of components
     this.components = makeComponents(this.state);
+
     // handle click
     this.handleClick = this.handleClick.bind(this);
 
@@ -117,6 +140,7 @@ class Discovery extends React.Component {
   }
 
   handleClick() {
+    animateScrollTo(document.querySelector("#cards_view"));
     // jsonify the response
     this.get_response = function(response) {
       if (response.ok) {
@@ -135,6 +159,9 @@ class Discovery extends React.Component {
           newstate.push(restaurants[i]);
         }
       }
+      this.reservoir[this.cycle] = this.state.list;
+      this.cycle += 1;
+
       return newstate;
     };
 
@@ -146,24 +173,15 @@ class Discovery extends React.Component {
 
       this.setState({ show_load: false });
       this.setState({ show: true });
+      animateScrollTo(document.querySelector("#cards_view"));
     };
-
-    // fetch new state from API
-    // GET request from our server (currently 5 random restaurants)
-    // fetch(
-    //   "http://nomnomn2.vfmbcebmmc.eu-west-2.elasticbeanstalk.com/restaurant"
-    // )
-    //   .then(response => this.get_response(response)) // verify response success
-    //   .then(response => this.unpack_response(response)) // unpack the dictionary
-    //   .then(response => this.update_state(response)); // update the state
-    // // apply to new state
 
     fetch(
       "http://nomnomv2.4jf3fe3e3p.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.props.filters)
+        body: JSON.stringify({ ...this.props.filters, ...this.reservoir })
       }
     ) //this.state.filters
       .then(response => this.get_response(response)) // verify response success
@@ -209,13 +227,7 @@ class Discovery extends React.Component {
             <Button onClick={this.reactThis.bind(this)}> Go Back </Button>
           </Box>
 
-          <Box p={[1]} width={[1 / 3]}>
-            <Text_sub>To discover further:</Text_sub>
-
-            <Button onClick={this.handleClick}> Next restaurants </Button>
-          </Box>
-
-          <Box p={2} width={1} align="center" ref="umountable">
+          <Box id="cards_view" p={2} width={1} align="center" ref="umountable">
             <Box p={[1]} width={[1]}>
               {this.state.show_load && (
                 <img
@@ -227,21 +239,39 @@ class Discovery extends React.Component {
               )}
             </Box>
           </Box>
-          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-            {this.state.show && this.components[0]}
-          </Box>
-          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-            {this.state.show && this.components[1]}
-          </Box>
-          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-            {this.state.show && this.components[2]}
-          </Box>
-          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-            {this.state.show && this.components[3]}
-          </Box>
-          <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-            {this.state.show && this.components[4]}
-          </Box>
+
+          {this.state.reservation != false && (
+            <Reservation restaurant={this.state.list[this.state.reservation]} />
+          )}
+
+          {this.state.show && (
+            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+              {this.components[0]}
+            </Box>
+          )}
+
+          {this.state.show && (
+            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+              {this.components[1]}
+            </Box>
+          )}
+          {this.state.show && (
+            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+              {this.components[2]}
+            </Box>
+          )}
+          {this.state.show && (
+            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+              {this.components[3]}
+            </Box>
+          )}
+          {this.state.show && (
+            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
+              {this.components[4]}
+            </Box>
+          )}
+          <Button2 onClick={this.handleClick}>👉 Next restaurants 👈</Button2>
+
           <Box p={2} width={1} align="center">
             <Text_sub>Specify preference with emoji's*</Text_sub>
             <Text_sub2>

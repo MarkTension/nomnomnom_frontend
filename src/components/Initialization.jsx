@@ -5,6 +5,7 @@ import styled, { keyframes } from "styled-components";
 import { Box, Flex } from "rebass";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
+import animateScrollTo from "animated-scroll-to";
 
 const Text = styled.h2`
   font-family: "Raleway", sans-serif;
@@ -68,11 +69,7 @@ class Initialization extends React.Component {
   };
 
   handleSubmit(event) {
-    // console.log(this.state.show);
-    // this.props.setFilters("filter1");
-    // debugger;
     this.props.setFilters(this.state);
-
     event.preventDefault();
   }
 

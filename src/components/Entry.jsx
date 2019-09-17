@@ -15,6 +15,21 @@ const Title = styled.h1`
   max-height: 2em;
 `;
 
+const Button = styled.button`
+  outline: none;
+  background: snow;
+  color: "palevioletred";
+  font-size: 0.5em;
+  font-weight: 300;
+  color: DarkSlateGrey
+  margin: 1em;
+  padding: 0.25em 1em;
+  border-radius: 20px;
+  :hover {
+    background: MistyRose;
+  }
+`;
+
 const Text = styled.h6`
   font-family: "Raleway", sans-serif;
   font-weight: 500;
@@ -63,7 +78,6 @@ class Entry extends React.Component {
     this.state = {
       active: false,
       preference: 1,
-      new: this.props.new,
       didMount: false
     };
   }
@@ -76,6 +90,17 @@ class Entry extends React.Component {
 
   handleActive() {
     this.setState({ active: true });
+  }
+
+  makeResevation() {
+    console.log("hi");
+    debugger;
+    this.props.reservation();
+    // write code to unrender all other restaurants
+    // callback to discovery
+    // give other elements a state
+
+    //
   }
 
   render() {
@@ -154,6 +179,11 @@ class Entry extends React.Component {
         >
           😍
         </EmojiWrap>
+        {this.props.reservation != true && (
+          <Button onClick={this.makeResevation.bind(this)}>
+            Make reservation
+          </Button>
+        )}
       </Wrapper>
     );
   }
