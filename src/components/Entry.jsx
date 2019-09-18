@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "../App.css";
 import styled from "styled-components";
 import { Flex, Image } from "rebass";
@@ -78,7 +77,7 @@ class Entry extends React.Component {
     this.state = {
       active: false,
       preference: 1,
-      didMount: false
+      didMount: false // for fade-in animation
     };
   }
 
@@ -86,6 +85,23 @@ class Entry extends React.Component {
     setTimeout(() => {
       this.setState({ didMount: true });
     }, 0);
+    setTimeout(() => {
+      this.setState({ preference: 1 });
+    }, 0);
+
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.setState({ preference: 1 });
+    this._isMounted = false;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    // check if preference changed
+    if (nextState.preference !== this.state.preference) {
+      this.props.prefChange(nextState.preference);
+    }
   }
 
   handleActive() {
@@ -93,14 +109,7 @@ class Entry extends React.Component {
   }
 
   makeResevation() {
-    console.log("hi");
-    debugger;
-    this.props.reservation();
-    // write code to unrender all other restaurants
-    // callback to discovery
-    // give other elements a state
-
-    //
+    this.props.reservation(); // callback to parent
   }
 
   render() {
@@ -124,65 +133,71 @@ class Entry extends React.Component {
         <Text>
           {this.props.cuisine.toString().replace(/,/g, " + ")}
 
-          {this.props.specific[0] == 1 || this.props.specific[1] == 1
+          {this.props.specific[0] === 1 || this.props.specific[1] === 1
             ? " + "
             : ""}
 
           <green>{this.props.specific[0] ? "Vegan🌱 " : "\n"} </green>
-          {this.props.specific[0] == 1 && this.props.specific[1] == 1
+          {this.props.specific[0] === 1 && this.props.specific[1] === 1
             ? " + "
             : ""}
           <green>{this.props.specific[1] ? " Vegetarian🌱 " : "\n"} </green>
-          {this.props.specific[2] == 1 || this.props.specific[3] == 1
+          {this.props.specific[2] === 1 || this.props.specific[3] === 1
             ? " + "
             : ""}
           {this.props.specific[2] ? " 🍷🍺 " : "\n"}
-          {this.props.specific[2] == 1 && this.props.specific[3] == 1
+          {this.props.specific[2] === 1 && this.props.specific[3] === 1
             ? " + "
             : ""}
           {this.props.specific[3] ? " Outdoor-seating☀️⛱️ " : "\n"}
         </Text>
         <TextPrice>
-          {this.props.price == 0 ? "💲 " : ""}
-          {this.props.price == 1 ? "💲💲 " : ""}
-          {this.props.price == 2 ? "💲💲💲 " : ""}
+          {this.props.price === 0 ? "💲 " : ""}
+          {this.props.price === 1 ? "💲💲 " : ""}
+          {this.props.price === 2 ? "💲💲💲 " : ""}
         </TextPrice>
         <Flex
           justifyContent={["center", "left"]}
           flexDirection="row"
           flexWrap="wrap"
         />
-        <EmojiWrap
-          id="emo0"
-          onClick={() => this.setState({ preference: 0 })}
-          style={{
-            transform: this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
-          }}
-        >
-          🙁
-        </EmojiWrap>
-        <EmojiWrap
-          id="emo1"
-          onClick={() => this.setState({ preference: 1 })}
-          style={{
-            transform: this.state.preference === 1 ? "scale(1.5)" : "scale(1)"
-          }}
-        >
-          🤔
-        </EmojiWrap>
-        <EmojiWrap
-          id="emo2"
-          onClick={() => this.setState({ preference: 2 })}
-          style={{
-            transform: this.state.preference === 2 ? "scale(1.5)" : "scale(1)"
-          }}
-        >
-          😍
-        </EmojiWrap>
-        {this.props.reservation != true && (
-          <Button onClick={this.makeResevation.bind(this)}>
-            Make reservation
-          </Button>
+        {this.props.reservation !== true && (
+          <div>
+            <EmojiWrap
+              id="emo0"
+              onClick={() => this.setState({ preference: 0 })}
+              style={{
+                transform:
+                  this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
+              }}
+            >
+              🙁
+            </EmojiWrap>
+            <EmojiWrap
+              id="emo1"
+              onClick={() => this.setState({ preference: 1 })}
+              style={{
+                transform:
+                  this.state.preference === 1 ? "scale(1.5)" : "scale(1)"
+              }}
+            >
+              🤔
+            </EmojiWrap>
+            <EmojiWrap
+              id="emo2"
+              onClick={() => this.setState({ preference: 2 })}
+              style={{
+                transform:
+                  this.state.preference === 2 ? "scale(1.5)" : "scale(1)"
+              }}
+            >
+              😍
+            </EmojiWrap>
+
+            <Button onClick={this.makeResevation.bind(this)}>
+              Make reservation
+            </Button>
+          </div>
         )}
       </Wrapper>
     );

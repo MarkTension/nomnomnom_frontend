@@ -1,7 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "../App.css";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Box, Flex, Image } from "rebass";
 import hugo from "../images/team_hugo.png";
 import mark from "../images/team_mark.png";
@@ -15,7 +14,7 @@ const Text = styled.h2`
   color: black;
 `;
 
-const Text_sub = styled.h2`
+const TextSub = styled.h2`
   font-family: "Raleway", sans-serif;
   font-weight: 300;
   font-size: 1em;
@@ -36,24 +35,6 @@ const IntroBox = styled.div`
   width: 80%;
 `;
 
-const Image_container = styled.div`
-  justify-content: center;
-  alignitems: "center";
-  transition: transform 300ms ease-in-out;
-  &:hover {
-    transform: rotate(20deg);
-  }
-`;
-
-const Wrapper = styled.section`
-  background: snow;
-
-  border-radius: 20px;
-  :hover {
-    background: Seashell;
-  }
-`;
-
 const imageStyle = {
   marginBottom: "0%",
   borderRadius: "10px",
@@ -61,10 +42,6 @@ const imageStyle = {
 };
 
 class Team extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <IntroBox id="introbox" style={instroStyle} className="introBox">
@@ -80,27 +57,27 @@ class Team extends React.Component {
           <Box p={[1]} width={[1, 1 / 2]}>
             <Image src={hugo} style={imageStyle} />
 
-            <Text_sub>
+            <TextSub>
               Hugo Evers, <em>The Visionary</em>
-            </Text_sub>
+            </TextSub>
           </Box>
           <Box p={[1]} width={[1, 1 / 2]}>
             <Image src={lucas} style={imageStyle} />
-            <Text_sub>
+            <TextSub>
               Lucas Berndsen, <em>The Scientist</em>
-            </Text_sub>
+            </TextSub>
           </Box>
           <Box p={[1]} width={[1, 1 / 2]}>
             <Image src={mark} style={imageStyle} />
-            <Text_sub>
+            <TextSub>
               Mark Tensen, <em>The Macgyver</em>
-            </Text_sub>
+            </TextSub>
           </Box>
           <Box p={[1]} width={[1, 1 / 2]}>
             <Image src={daniel} style={imageStyle} />
-            <Text_sub>
+            <TextSub>
               Daniël Koudijs, <em>The Operator</em>
-            </Text_sub>
+            </TextSub>
           </Box>
         </Flex>
       </IntroBox>

@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "../App.css";
 import styled from "styled-components";
 import { Flex, Box } from "rebass";
@@ -16,21 +15,6 @@ const Title = styled.h1`
   max-height: 2em;
 `;
 
-const Button = styled.button`
-  outline: none;
-  background: snow;
-  color: "palevioletred";
-  font-size: 0.5em;
-  font-weight: 300;
-  color: DarkSlateGrey
-  margin: 1em;
-  padding: 0.25em 1em;
-  border-radius: 20px;
-  :hover {
-    background: MistyRose;
-  }
-`;
-
 const Text = styled.h6`
   font-family: "Raleway", sans-serif;
   font-weight: 500;
@@ -40,44 +24,7 @@ const Text = styled.h6`
   height: 5em;
 `;
 
-const TextPrice = styled.h5`
-  font-family: "Raleway", sans-serif;
-  font-weight: 500;
-  text-align: center;
-  color: black;
-  height: 1.5em;
-`;
-
-const Wrapper = styled.section`
-  padding-left: 0em;
-  padding-right: 0em;
-  padding-bottom: 1em;
-  padding-top: 1em;
-  background: snow;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  border-radius: 20px;
-  :hover {
-    background: Seashell;
-  }
-`;
-
-const EmojiWrap = styled.span`
-  margin-left: 5%;
-  margin-right: 5%;
-  font-size: 1.5em
-  display: inline-block;
-  transition: transform 200ms ease-in-out;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 class Reservation extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const restaurant = this.props.restaurant;
 

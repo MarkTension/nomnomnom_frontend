@@ -1,11 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "../App.css";
-import styled, { keyframes } from "styled-components";
-import { Box, Flex } from "rebass";
+import styled from "styled-components";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
-import animateScrollTo from "animated-scroll-to";
 
 const Text = styled.h2`
   font-family: "Raleway", sans-serif;
@@ -45,10 +42,6 @@ const Button = styled.button`
   }
 `;
 
-const Inline = {
-  display: "inline"
-};
-
 class Initialization extends React.Component {
   constructor(props) {
     super(props);
@@ -62,6 +55,7 @@ class Initialization extends React.Component {
     };
   }
 
+  // for the range bar
   handleOnChange = value => {
     this.setState({
       range: value
@@ -145,7 +139,7 @@ class Initialization extends React.Component {
         >
           drinks
         </Button>
-        // slider for distance
+
         <div style={{ marginLeft: "42%" }}>
           <div style={{ width: "200px" }}>
             <Title>maximum range = {range} km</Title>

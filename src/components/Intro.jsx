@@ -20,7 +20,7 @@ const IntroBox = styled.div`
   width: 60%;
 `;
 
-const Image_container = styled.div`
+const ImageContainer = styled.div`
   justify-content: center;
   alignitems: "center";
   transition: transform 300ms ease-in-out;
@@ -38,9 +38,9 @@ const instroStyle = {
 const Card = () => (
   <IntroBox style={instroStyle} className="introBox">
     <center>
-      <Image_container>
+      <ImageContainer>
         <img src={logo} className="App-logo" alt="logo" width="300px" />
-      </Image_container>
+      </ImageContainer>
     </center>
     <Text>
       <p>

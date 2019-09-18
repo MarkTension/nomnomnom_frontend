@@ -1,22 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "../App.css";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Box, Flex } from "rebass";
 import Entry from "./Entry"; // this is the card for each restaurant
 import Reservation from "./Reservation"; // this is the card for each restaurant
-import entries from "./Entries"; // this is an initial test array with all restuarants
 import logo from "../images/logo_sq.png";
 import animateScrollTo from "animated-scroll-to";
 
-const Text = styled.h2`
-  font-family: "Raleway", sans-serif;
-  font-weight: 300;
-  text-align: center;
-  color: black;
-`;
-
-const Text_sub = styled.h2`
+const TextSub = styled.h2`
   font-family: "Raleway", sans-serif;
   font-weight: 300;
   font-size: 1em;
@@ -24,7 +15,7 @@ const Text_sub = styled.h2`
   color: black;
 `;
 
-const Text_sub2 = styled.h2`
+const TextSub2 = styled.h2`
   font-family: "Raleway", sans-serif;
   font-weight: 300;
   font-size: 0.5em;
@@ -88,59 +79,99 @@ const logoStyle = {
   height: "150px"
 };
 
-function makeComponents(state) {
-  let components = [];
-  for (let i = 0; i < 5; i++) {
-    components.push(
-      <Entry
-        title={state.list[i].name}
-        cuisine={state.list[i].cuisine}
-        price={state.list[i].price_min}
-        image={state.list[i].z_image}
-        specific={[
-          state.list[i].vegan,
-          state.list[i].vegetarisch,
-          state.list[i].alcohol,
-          state.list[i].outside
-        ]}
-        type={[
-          state.list[i].Type_Ontbijt,
-          state.list[i].Type_Brunch,
-          state.list[i].Type_Lunch,
-          state.list[i].Type_Diner
-        ]}
-        reservation={reserve => this.setState({ reservation: i, show: false })}
-      />
-    );
-  }
-  return components;
-}
-
 class Discovery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: entries,
+      list: {},
       show: false,
       show_load: true,
-      reservation: false // reservation pressed?
+      reservation: false, // reservation pressed?
+      round: this.props.round
     };
-    this.cycle = 0; // tracking round number
-    this.reservoir = {}; // storing each restaurant state
-
-    makeComponents = makeComponents.bind(this);
-
-    // make initial list of components
-    this.components = makeComponents(this.state);
 
     // handle click
     this.handleClick = this.handleClick.bind(this);
-
     this.handleClick();
   }
 
+  makeComponents() {
+    let components = [];
+
+    console.log(String(this.state.round) + String(this.cycle));
+
+    for (let i = 0; i < 5; i++) {
+      let keyname = String(this.state.round) + String(this.cycle) + String(i); //TODO: add round
+
+      let restaurant = this.state.list[i];
+
+      components.push(
+        <Entry
+          key={keyname}
+          index={i}
+          prefChange={pref => {
+            this.preferences[i] = pref;
+          }} // how to store preferences?
+          title={restaurant.name}
+          cuisine={restaurant.cuisine}
+          price={restaurant.price_min}
+          image={restaurant.z_image}
+          specific={[
+            restaurant.vegan,
+            restaurant.vegetarisch,
+            restaurant.alcohol,
+            restaurant.outside
+          ]}
+          type={[
+            restaurant.Type_Ontbijt,
+            restaurant.Type_Brunch,
+            restaurant.Type_Lunch,
+            restaurant.Type_Diner
+          ]}
+          reservation={reserve => {
+            this._isMounted && this.setState({ reservation: i, show: false });
+          }}
+          pref={this.state.show}
+        />
+      );
+    }
+    return components;
+  }
+
+  componentDidMount() {
+    this.preferences = {};
+    this._isMounted = true;
+    this.cycle = 0;
+    this.reservoir = {}; // for storing each restaurant state
+    this.makeComponents = this.makeComponents.bind(this);
+  }
+
+  componentWillUnmount() {
+    console.log("component unmounted");
+    this._isMounted = false;
+  }
+
   handleClick() {
+    // put preferences into state
+
+    // prepare proper server post with previous restaurants
+
+    var reservoirstate = this.state.list;
+    for (let i = 0; i < reservoirstate.length; i++) {
+      // delete images for the reservoir
+      delete reservoirstate[i].z_image;
+      // add preferences
+      reservoirstate[i].preference = this.preferences[i];
+    }
+
+    // skip first cycle, because it's empty (bug)
+    if (Object.entries(reservoirstate).length !== 0) {
+      this.reservoir[this.cycle] = reservoirstate;
+      this.cycle += 1;
+    }
+
     animateScrollTo(document.querySelector("#cards_view"));
+
     // jsonify the response
     this.get_response = function(response) {
       if (response.ok) {
@@ -159,8 +190,6 @@ class Discovery extends React.Component {
           newstate.push(restaurants[i]);
         }
       }
-      this.reservoir[this.cycle] = this.state.list;
-      this.cycle += 1;
 
       return newstate;
     };
@@ -169,7 +198,12 @@ class Discovery extends React.Component {
     this.update_state = function(newstate) {
       this.setState({ list: newstate });
       // finally make components
-      this.components = makeComponents(this.state);
+      this.components = this.makeComponents(this.state);
+
+      // set initial preferences for the new round
+      for (let i = 0; i < Object.entries(this.state.list).length; i += 1) {
+        this.preferences[i] = 1;
+      }
 
       this.setState({ show_load: false });
       this.setState({ show: true });
@@ -190,21 +224,21 @@ class Discovery extends React.Component {
   }
 
   reactThis(event) {
+    this.props.setRound();
     this.props.setFilters(false);
-
+    this.setState({ reservation: false });
     event.preventDefault();
   }
 
   render() {
+    // this.preference.onchange = function(){myScript};
     // show filters
     let filter = this.props.filters;
     const range = this.props.filters.range;
-
     delete filter["show"];
-    // delete filter["range"];
 
     for (let key in filter) {
-      if (filter[key] == 1 && key != "range") {
+      if (filter[key] === 1 && key !== "range") {
         var filter_choice = key;
       }
     }
@@ -221,9 +255,9 @@ class Discovery extends React.Component {
             <img src={logo} className="fadein" alt="logo" style={logoStyle} />
           </Box>
           <Box p={[1]} width={[1 / 3]}>
-            <Text_sub>
+            <TextSub>
               Discovering <b>{filter_choice}</b> within <b>{range} km</b>
-            </Text_sub>
+            </TextSub>
             <Button onClick={this.reactThis.bind(this)}> Go Back </Button>
           </Box>
 
@@ -240,7 +274,7 @@ class Discovery extends React.Component {
             </Box>
           </Box>
 
-          {this.state.reservation != false && (
+          {this.state.reservation !== false && (
             <Reservation restaurant={this.state.list[this.state.reservation]} />
           )}
 
@@ -270,16 +304,21 @@ class Discovery extends React.Component {
               {this.components[4]}
             </Box>
           )}
-          <Button2 onClick={this.handleClick}>👉 Next restaurants 👈</Button2>
+
+          {this.state.reservation === false ? (
+            <Button2 onClick={this.handleClick}>👉 Next restaurants 👈</Button2>
+          ) : (
+            " "
+          )}
 
           <Box p={2} width={1} align="center">
-            <Text_sub>Specify preference with emoji's*</Text_sub>
-            <Text_sub2>
+            <TextSub>Specify preference with emoji's*</TextSub>
+            <TextSub2>
               <i>
                 *This trains our algorithms to come up with better matching
                 discoveries in the next round
               </i>
-            </Text_sub2>
+            </TextSub2>
           </Box>
         </Flex>
       </IntroBox>

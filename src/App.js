@@ -3,7 +3,6 @@ import "./App.css";
 import Intro from "./components/Intro";
 import Engine from "./components/Engine";
 import Team from "./components/Team";
-import { Box, Flex, Image } from "rebass";
 
 // get total screen container
 function App() {
