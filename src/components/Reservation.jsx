@@ -25,9 +25,41 @@ const Text = styled.h6`
 `;
 
 class Reservation extends React.Component {
-  render() {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    // jsonify the response
+
     const restaurant = this.props.restaurant;
 
+    var winner = {};
+    winner["reservation"] = restaurant.name;
+
+    this.get_response = function(response) {
+      if (response.ok) {
+        console.log(response.json());
+      }
+      // return response.json();
+      console.log("Network response was not ok.");
+    };
+    fetch(
+      "nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/feedback", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
+      {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...this.props.history,
+          ...winner
+        })
+      }
+    ) //this.state.filters
+      .then(response => this.get_response(response)); // verify response success
+  }
+
+  render() {
+    const restaurant = this.props.restaurant;
     return (
       <Flex width="100%" align="left">
         <Box p={[1]} width={[1 / 4]}>

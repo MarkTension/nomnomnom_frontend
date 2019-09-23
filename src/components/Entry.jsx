@@ -23,7 +23,7 @@ const Button = styled.button`
   color: DarkSlateGrey
   margin: 1em;
   padding: 0.25em 1em;
-  border-radius: 20px;
+  border-radius: 10px;
   :hover {
     background: MistyRose;
   }
@@ -34,30 +34,35 @@ const Text = styled.h6`
   font-weight: 500;
   text-align: center;
   color: black;
-  font-size: 0.7em;
+  font-size: 0.5em;
   height: 5em;
 `;
 
-const TextPrice = styled.h5`
+const TextPrice = styled.h6`
   font-family: "Raleway", sans-serif;
   font-weight: 500;
   text-align: center;
+  font-size: 0.5em;
+
   color: black;
   height: 1.5em;
 `;
 
 const Wrapper = styled.section`
-  padding-left: 0em;
-  padding-right: 0em;
-  padding-bottom: 1em;
-  padding-top: 1em;
-  background: snow;
   padding-left: 0.5em;
   padding-right: 0.5em;
-  border-radius: 20px;
-  :hover {
+  padding-bottom: 1em;
+  padding-top: 0.5em;
+  background: white;
+
+  border-radius: 10px;
+  border: 2px solid Seashell;
+  box-shadow: 2px 2px 2px Gainsboro;
+  shadowopacity: 0.1;
+
+  /* :hover {
     background: Seashell;
-  }
+  } */
 `;
 
 const EmojiWrap = styled.span`
@@ -125,7 +130,8 @@ class Entry extends React.Component {
         <Image
           height={"190px"}
           max-width={"100px"}
-          borderRadius={8}
+          borderRadius={10}
+          margin={0}
           src={this.props.image}
           alt="logo"
         />
@@ -150,11 +156,17 @@ class Entry extends React.Component {
             ? " + "
             : ""}
           {this.props.specific[3] ? " Outdoor-seating☀️⛱️ " : "\n"}
+          {this.props.specific[3] === 1 && this.props.specific[4] === 1
+            ? " + "
+            : ""}
+          {this.props.specific[4] ? " Halal " : "\n"}
+          {this.props.specific[4] === 1 && this.props.specific[5] === 1
+            ? " + "
+            : ""}
+          {this.props.specific[5] ? " Kosher " : "\n"}
         </Text>
         <TextPrice>
-          {this.props.price === 0 ? "💲 " : ""}
-          {this.props.price === 1 ? "💲💲 " : ""}
-          {this.props.price === 2 ? "💲💲💲 " : ""}
+          €{this.props.price_min | 0} ~ €{this.props.price_max | 0}
         </TextPrice>
         <Flex
           justifyContent={["center", "left"]}

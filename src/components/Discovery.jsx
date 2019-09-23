@@ -51,6 +51,7 @@ const Button = styled.button`
     background: Seashell;
   }
 `;
+
 const Button2 = styled.button`
   /* outline: none; */
   border: none;
@@ -63,6 +64,7 @@ const Button2 = styled.button`
   width: 100%;
   padding: 0.25em 1em;
   border-radius: 10px;
+  border: 2px solid Seashell;
   :hover {
     background: Seashell;
   }
@@ -89,10 +91,6 @@ class Discovery extends React.Component {
       reservation: false, // reservation pressed?
       round: this.props.round
     };
-
-    // handle click
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClick();
   }
 
   makeComponents() {
@@ -114,13 +112,17 @@ class Discovery extends React.Component {
           }} // how to store preferences?
           title={restaurant.name}
           cuisine={restaurant.cuisine}
-          price={restaurant.price_min}
+          price_min={restaurant.price_min}
+          price_max={restaurant.price_max}
+          priceAvg={restaurant.price_avg}
           image={restaurant.z_image}
           specific={[
             restaurant.vegan,
             restaurant.vegetarisch,
             restaurant.alcohol,
-            restaurant.outside
+            restaurant.outside,
+            restaurant.halal,
+            restaurant.kosher
           ]}
           type={[
             restaurant.Type_Ontbijt,
@@ -144,6 +146,10 @@ class Discovery extends React.Component {
     this.cycle = 0;
     this.reservoir = {}; // for storing each restaurant state
     this.makeComponents = this.makeComponents.bind(this);
+
+    // handle click
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClick();
   }
 
   componentWillUnmount() {
@@ -151,11 +157,21 @@ class Discovery extends React.Component {
     this._isMounted = false;
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    // check if preference changed
+    if (nextState.reservation !== false && this.state.reservation === false) {
+      this.reservoir[this.cycle] = this.state.list;
+
+      for (let i = 0; i < this.reservoir[this.cycle].length; i++) {
+        // delete images for the reservoir
+        // delete this.reservoir[this.cycle][i].z_image; TODO: delete z_image
+      }
+    }
+  }
+
   handleClick() {
     // put preferences into state
-
     // prepare proper server post with previous restaurants
-
     var reservoirstate = this.state.list;
     for (let i = 0; i < reservoirstate.length; i++) {
       // delete images for the reservoir
@@ -169,6 +185,8 @@ class Discovery extends React.Component {
       this.reservoir[this.cycle] = reservoirstate;
       this.cycle += 1;
     }
+
+    this.setState({ reservoir: this.reservoir });
 
     animateScrollTo(document.querySelector("#cards_view"));
 
@@ -211,7 +229,7 @@ class Discovery extends React.Component {
     };
 
     fetch(
-      "http://nomnomv2.4jf3fe3e3p.eu-west-2.elasticbeanstalk.com/restaurant",
+      "nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/restaurant", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -275,7 +293,10 @@ class Discovery extends React.Component {
           </Box>
 
           {this.state.reservation !== false && (
-            <Reservation restaurant={this.state.list[this.state.reservation]} />
+            <Reservation
+              restaurant={this.state.list[this.state.reservation]}
+              history={this.state.reservoir}
+            />
           )}
 
           {this.state.show && (
