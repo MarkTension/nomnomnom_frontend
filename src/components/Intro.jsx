@@ -4,20 +4,20 @@ import "../App.css";
 import styled from "styled-components";
 import Menu from "./Menu";
 
-const Text = styled.h2`
+const Text = styled.h4`
   font-family: "Raleway", sans-serif;
   font-weight: 300;
   text-align: justify;
   color: black;
   padding: 1em;
-  font-size: 1.5rem;
+  margin-bottom: 0px;
 `;
 
 const IntroBox = styled.div`
   justify-content: center;
   alignitems: "center";
   background: white;
-  width: 60%;
+  width: 80%;
 `;
 
 const ImageContainer = styled.div`
@@ -39,7 +39,7 @@ const Card = () => (
   <IntroBox style={instroStyle} className="introBox">
     <center>
       <ImageContainer>
-        <img src={logo} className="App-logo" alt="logo" width="300px" />
+        <img src={logo} className="App-logo" alt="logo" width="20%" />
       </ImageContainer>
     </center>
     <Text>

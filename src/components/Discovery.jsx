@@ -6,6 +6,7 @@ import Entry from "./Entry"; // this is the card for each restaurant
 import Reservation from "./Reservation"; // this is the card for each restaurant
 import logo from "../images/logo_sq.png";
 import animateScrollTo from "animated-scroll-to";
+import { isMobile } from "react-device-detect";
 
 const TextSub = styled.h2`
   font-family: "Raleway", sans-serif;
@@ -72,13 +73,14 @@ const Button2 = styled.button`
 
 const imageStyle = {
   marginBottom: "10%",
-  height: "300px",
+  width: "40%",
   opacity: "0.1"
 };
 
 const logoStyle = {
   marginBottom: "0%",
-  height: "150px"
+  // height: "150px"
+  width: "40%"
 };
 
 class Discovery extends React.Component {
@@ -269,10 +271,12 @@ class Discovery extends React.Component {
           width="100%"
           style={{ marginBottom: 50 }}
         >
-          <Box p={[1]} align="center" width={[1 / 3]}>
-            <img src={logo} className="fadein" alt="logo" style={logoStyle} />
-          </Box>
-          <Box p={[1]} width={[1 / 3]}>
+          {isMobile == false && (
+            <Box p={[1]} align="center" width={[1 / 3]}>
+              <img src={logo} alt="logo" style={logoStyle} />
+            </Box>
+          )}
+          <Box p={[1]} width={[3 / 3, 1 / 3]}>
             <TextSub>
               Discovering <b>{filter_choice}</b> within <b>{range} km</b>
             </TextSub>

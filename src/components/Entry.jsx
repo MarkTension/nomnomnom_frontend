@@ -2,6 +2,7 @@ import React from "react";
 import "../App.css";
 import styled from "styled-components";
 import { Flex, Image } from "rebass";
+import { isMobile } from "react-device-detect";
 
 const Title = styled.h1`
   font-family: "Raleway", sans-serif;
@@ -59,10 +60,6 @@ const Wrapper = styled.section`
   border: 2px solid Seashell;
   box-shadow: 2px 2px 2px Gainsboro;
   shadowopacity: 0.1;
-
-  /* :hover {
-    background: Seashell;
-  } */
 `;
 
 const EmojiWrap = styled.span`
@@ -127,14 +124,16 @@ class Entry extends React.Component {
         onMouseLeave={() => this.setState({ active: false })}
         id="entry_wrapper"
       >
-        <Image
-          height={"190px"}
-          max-width={"100px"}
-          borderRadius={10}
-          margin={0}
-          src={this.props.image}
-          alt="logo"
-        />
+        {isMobile == false && (
+          <Image
+            height={"190px"}
+            max-width={"100px"}
+            borderRadius={10}
+            margin={0}
+            src={this.props.image}
+            alt="logo"
+          />
+        )}
         <Title>{this.props.title}</Title>
         <Text>
           {this.props.cuisine.toString().replace(/,/g, " + ")}

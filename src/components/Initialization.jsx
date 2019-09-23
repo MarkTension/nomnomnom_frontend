@@ -9,6 +9,7 @@ const Text = styled.h2`
   font-weight: 300;
   text-align: center;
   color: black;
+  padding: 20px;
 `;
 
 const Title = styled.h1`
@@ -140,8 +141,8 @@ class Initialization extends React.Component {
           drinks
         </Button>
 
-        <div style={{ marginLeft: "42%" }}>
-          <div style={{ width: "200px" }}>
+        <div style={{ marginLeft: "35%" }}>
+          <div style={{ width: "50%" }}>
             <Title>maximum range = {range} km</Title>
 
             <Slider
