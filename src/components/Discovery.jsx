@@ -229,7 +229,7 @@ class Discovery extends React.Component {
     };
 
     fetch(
-      "nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/restaurant", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
+      "http://nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/restaurant", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },

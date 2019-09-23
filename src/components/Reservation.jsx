@@ -45,7 +45,7 @@ class Reservation extends React.Component {
       console.log("Network response was not ok.");
     };
     fetch(
-      "nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/feedback", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
+      "http://nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/feedback", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },
