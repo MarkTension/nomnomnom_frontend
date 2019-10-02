@@ -3,6 +3,9 @@ import "../App.css";
 import styled from "styled-components";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
+import MapContainer from "./Map";
+import { Box, Flex } from "rebass";
+import { Button as Button2 } from "rebass";
 
 const Text = styled.h2`
   font-family: "Raleway", sans-serif;
@@ -43,6 +46,14 @@ const Button = styled.button`
   }
 `;
 
+const mapStyle = {
+  marginBottom: "420px"
+};
+const rangeStyle = {
+  marginLeft: "35%",
+  paddingBottom: "5%"
+};
+
 class Initialization extends React.Component {
   constructor(props) {
     super(props);
@@ -52,14 +63,33 @@ class Initialization extends React.Component {
       lunch: -1,
       dinner: -1,
       drinks: -1,
-      range: 1
+      range: 1,
+      maxTime: 10,
+      latLng: [52.3667, 4.8945]
     };
+    this.maxTime = 10;
+    this.range = 1;
   }
 
   // for the range bar
   handleOnChange = value => {
+    let rangeShow = 0;
+    if (value === 0) {
+      this.maxTime = 5;
+    }
+    if (value === 1) {
+      this.maxTime = 10;
+    }
+    if (value === 2) {
+      this.maxTime = 20;
+    }
+    if (value === 3) {
+      this.maxTime = 50;
+    }
+    this.range = value;
     this.setState({
-      range: value
+      range: value,
+      maxTime: this.maxTime
     });
   };
 
@@ -70,6 +100,7 @@ class Initialization extends React.Component {
 
   render() {
     let { range } = this.state;
+
     return (
       <IntroBox>
         <Text> Welcome to NOMNOMNOM restaurant discovery</Text>
@@ -140,22 +171,41 @@ class Initialization extends React.Component {
         >
           drinks
         </Button>
-
-        <div style={{ marginLeft: "35%" }}>
+        <div>
+          <Button
+            style={{ background: "white" }}
+            onClick={this.handleSubmit.bind(this)}
+          >
+            Submit
+          </Button>
+        </div>
+        <div style={mapStyle}>
+          <center>
+            <MapContainer
+              latLng={this.state.latLng}
+              latLngChange={latLng => {
+                this.setState({ latLng: latLng });
+              }}
+            />
+          </center>
+        </div>
+        <div style={rangeStyle}>
           <div style={{ width: "50%" }}>
-            <Title>maximum range = {range} km</Title>
+            <Title>
+              🚲 ride {"<"} {this.maxTime} minutes
+            </Title>
 
             <Slider
               min={0}
-              max={10}
-              step={0.5}
-              value={range}
+              max={3}
+              step={1}
+              value={this.range}
               orientation="horizontal"
               onChange={this.handleOnChange}
+              tooltip={false}
             />
           </div>
         </div>
-        <Button onClick={this.handleSubmit.bind(this)}>Submit</Button>
       </IntroBox>
     );
   }

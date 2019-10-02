@@ -1,7 +1,7 @@
 import React from "react";
 import "../App.css";
 import styled from "styled-components";
-import { Flex, Image } from "rebass";
+import { Flex, Box, Image } from "rebass";
 import { isMobile } from "react-device-detect";
 
 const Title = styled.h1`
@@ -19,15 +19,17 @@ const Button = styled.button`
   outline: none;
   background: snow;
   color: "palevioletred";
-  font-size: 0.5em;
+  font-size: 0.8em;
   font-weight: 300;
   color: DarkSlateGrey
   margin: 1em;
-  padding: 0.25em 1em;
+  padding: 0.25em;
   border-radius: 10px;
   :hover {
     background: MistyRose;
   }
+  box-shadow: 2px 2px 2px Gainsboro;
+  shadowopacity: 0.1;
 `;
 
 const Text = styled.h6`
@@ -44,7 +46,6 @@ const TextPrice = styled.h6`
   font-weight: 500;
   text-align: center;
   font-size: 0.5em;
-
   color: black;
   height: 1.5em;
 `;
@@ -83,6 +84,21 @@ class Entry extends React.Component {
     };
   }
 
+  changeZero() {
+    if (this.state.preference === 0) {
+      this.setState({ preference: 1 });
+    } else {
+      this.setState({ preference: 0 });
+    }
+  }
+  changeTwo() {
+    if (this.state.preference === 2) {
+      this.setState({ preference: 1 });
+    } else {
+      this.setState({ preference: 2 });
+    }
+  }
+
   componentDidMount() {
     setTimeout(() => {
       this.setState({ didMount: true });
@@ -111,6 +127,7 @@ class Entry extends React.Component {
   }
 
   makeResevation() {
+    // this.setState({ preference: 3 });
     this.props.reservation(); // callback to parent
   }
 
@@ -124,16 +141,15 @@ class Entry extends React.Component {
         onMouseLeave={() => this.setState({ active: false })}
         id="entry_wrapper"
       >
-        {isMobile == false && (
-          <Image
-            height={"190px"}
-            max-width={"100px"}
-            borderRadius={10}
-            margin={0}
-            src={this.props.image}
-            alt="logo"
-          />
-        )}
+        <Image
+          height={"190px"}
+          max-width={"100px"}
+          borderRadius={10}
+          margin={0}
+          src={this.props.image}
+          alt="logo"
+        />
+
         <Title>{this.props.title}</Title>
         <Text>
           {this.props.cuisine.toString().replace(/,/g, " + ")}
@@ -173,42 +189,40 @@ class Entry extends React.Component {
           flexWrap="wrap"
         />
         {this.props.reservation !== true && (
-          <div>
-            <EmojiWrap
-              id="emo0"
-              onClick={() => this.setState({ preference: 0 })}
-              style={{
-                transform:
-                  this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
-              }}
-            >
-              🙁
-            </EmojiWrap>
-            <EmojiWrap
-              id="emo1"
-              onClick={() => this.setState({ preference: 1 })}
-              style={{
-                transform:
-                  this.state.preference === 1 ? "scale(1.5)" : "scale(1)"
-              }}
-            >
-              🤔
-            </EmojiWrap>
-            <EmojiWrap
-              id="emo2"
-              onClick={() => this.setState({ preference: 2 })}
-              style={{
-                transform:
-                  this.state.preference === 2 ? "scale(1.5)" : "scale(1)"
-              }}
-            >
-              😍
-            </EmojiWrap>
+          <Flex id="demo" flexWrap="wrap" width="100%">
+            <Box p={[1]} width={[1 / 2]}>
+              <EmojiWrap
+                id="emo0"
+                onClick={() => this.changeZero()}
+                style={{
+                  transform:
+                    this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
+                }}
+              >
+                🙁
+              </EmojiWrap>
+            </Box>
 
-            <Button onClick={this.makeResevation.bind(this)}>
-              Make reservation
+            <Box p={[1]} width={[1 / 2]}>
+              <EmojiWrap
+                id="emo2"
+                onClick={() => this.changeTwo()}
+                style={{
+                  transform:
+                    this.state.preference === 2 ? "scale(1.5)" : "scale(1)"
+                }}
+              >
+                😍
+              </EmojiWrap>
+            </Box>
+
+            <Button
+              style={{ width: "100%" }}
+              onClick={this.makeResevation.bind(this)}
+            >
+              Make Reservation
             </Button>
-          </div>
+          </Flex>
         )}
       </Wrapper>
     );

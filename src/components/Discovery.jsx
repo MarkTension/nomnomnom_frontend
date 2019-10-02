@@ -150,8 +150,8 @@ class Discovery extends React.Component {
     this.makeComponents = this.makeComponents.bind(this);
 
     // handle click
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClick();
+    this.clickNextRestaurant = this.clickNextRestaurant.bind(this);
+    this.clickNextRestaurant();
   }
 
   componentWillUnmount() {
@@ -171,20 +171,20 @@ class Discovery extends React.Component {
     }
   }
 
-  handleClick() {
+  clickNextRestaurant() {
     // put preferences into state
     // prepare proper server post with previous restaurants
-    var reservoirstate = this.state.list;
-    for (let i = 0; i < reservoirstate.length; i++) {
-      // delete images for the reservoir
-      delete reservoirstate[i].z_image;
-      // add preferences
-      reservoirstate[i].preference = this.preferences[i];
+    var minimalState = [];
+    for (let i = 0; i < this.state.list.length; i++) {
+      minimalState[i] = {};
+      minimalState[i]["id"] = this.state.list[i]["id"];
+
+      minimalState[i]["preference"] = this.preferences[i];
     }
 
     // skip first cycle, because it's empty (bug)
-    if (Object.entries(reservoirstate).length !== 0) {
-      this.reservoir[this.cycle] = reservoirstate;
+    if (Object.entries(minimalState).length !== 0) {
+      this.reservoir[this.cycle] = minimalState;
       this.cycle += 1;
     }
 
@@ -203,6 +203,9 @@ class Discovery extends React.Component {
     };
     // put json into new state
     this.unpack_response = function(restaurants) {
+      debugger;
+      this.numberRestaurants = restaurants.stats;
+      restaurants = restaurants.restaurants;
       var newstate = [];
       // update state
       for (var i in restaurants) {
@@ -230,12 +233,16 @@ class Discovery extends React.Component {
       animateScrollTo(document.querySelector("#cards_view"));
     };
 
+    var post = {};
+    post["filters"] = this.props.filters;
+    post["history"] = this.reservoir;
+
     fetch(
-      "http://nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/restaurant", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
+      "http://nomOct2Nr2.863x9hrepg.eu-west-2.elasticbeanstalk.com/restaurant", // "http://locationnomnom.m6r5pgzjxm.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...this.props.filters, ...this.reservoir })
+        body: JSON.stringify(post)
       }
     ) //this.state.filters
       .then(response => this.get_response(response)) // verify response success
@@ -251,10 +258,9 @@ class Discovery extends React.Component {
   }
 
   render() {
-    // this.preference.onchange = function(){myScript};
     // show filters
     let filter = this.props.filters;
-    const range = this.props.filters.range;
+    const maxTime = this.props.filters.maxTime;
     delete filter["show"];
 
     for (let key in filter) {
@@ -278,7 +284,8 @@ class Discovery extends React.Component {
           )}
           <Box p={[1]} width={[3 / 3, 1 / 3]}>
             <TextSub>
-              Discovering <b>{filter_choice}</b> within <b>{range} km</b>
+              Discovering {this.numberRestaurants} <b>{filter_choice}</b> places
+              within <b>{maxTime}</b> minutes 🚲
             </TextSub>
             <Button onClick={this.reactThis.bind(this)}> Go Back </Button>
           </Box>
@@ -298,8 +305,10 @@ class Discovery extends React.Component {
 
           {this.state.reservation !== false && (
             <Reservation
+              cycle={this.state.round}
               restaurant={this.state.list[this.state.reservation]}
               history={this.state.reservoir}
+              filters={this.props.filters}
             />
           )}
 
@@ -331,7 +340,9 @@ class Discovery extends React.Component {
           )}
 
           {this.state.reservation === false ? (
-            <Button2 onClick={this.handleClick}>👉 Next restaurants 👈</Button2>
+            <Button2 onClick={this.clickNextRestaurant}>
+              👉 Next restaurants 👈
+            </Button2>
           ) : (
             " "
           )}

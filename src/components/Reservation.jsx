@@ -34,8 +34,12 @@ class Reservation extends React.Component {
 
     const restaurant = this.props.restaurant;
 
-    var winner = {};
-    winner["reservation"] = restaurant.name;
+    var push = {};
+    push["reservation"] = restaurant.name;
+    push["filters"] = this.props.filters;
+    push["history"] = this.props.history;
+
+    debugger;
 
     this.get_response = function(response) {
       if (response.ok) {
@@ -45,14 +49,11 @@ class Reservation extends React.Component {
       console.log("Network response was not ok.");
     };
     fetch(
-      "http://nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/feedback", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
+      "http://nomOct2Nr2.863x9hrepg.eu-west-2.elasticbeanstalk.com/feedback", // "http://nomnomSept23.amzrhepk86.eu-west-2.elasticbeanstalk.com/feedback", // "http://nomNomSept19.rqffqrgnmy.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...this.props.history,
-          ...winner
-        })
+        body: JSON.stringify(push)
       }
     ) //this.state.filters
       .then(response => this.get_response(response)); // verify response success
@@ -62,7 +63,7 @@ class Reservation extends React.Component {
     const restaurant = this.props.restaurant;
     return (
       <Flex width="100%" align="left">
-        <Box p={[1]} width={[1 / 4]}>
+        <Box p={[1]} width={[1, 1 / 4]}>
           <Entry
             title={restaurant.name}
             cuisine={restaurant.cuisine}
@@ -83,8 +84,14 @@ class Reservation extends React.Component {
             reservation={true}
           />
         </Box>
-        <Box p={[10]} m={[5]} width={[3 / 4]}>
-          <Title>You've chosen {restaurant.name}!</Title>
+        <Box p={[1, 10]} m={[1, 5]} width={[1, 3 / 4]}>
+          <Title>
+            You've chosen <b>{restaurant.name}</b>!
+          </Title>
+          <Title>
+            Which is located at <br /> <i>{restaurant.adress}</i>!
+          </Title>
+
           <Text style={{ marginLeft: "20%", marginRight: "20%" }}>
             In beta stage we'll not be able to redirect you yet, but please go
             ahead and enjoy your food there:)
