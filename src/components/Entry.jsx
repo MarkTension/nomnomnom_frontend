@@ -19,7 +19,7 @@ const Button = styled.button`
   outline: none;
   background: snow;
   color: "palevioletred";
-  font-size: 0.8em;
+  font-size: 0.7em;
   font-weight: 300;
   color: DarkSlateGrey
   margin: 1em;
@@ -34,7 +34,7 @@ const Button = styled.button`
 
 const Text = styled.h6`
   font-family: "Raleway", sans-serif;
-  font-weight: 500;
+  font-weight: bold;
   text-align: center;
   color: black;
   font-size: 0.5em;
@@ -45,16 +45,16 @@ const TextPrice = styled.h6`
   font-family: "Raleway", sans-serif;
   font-weight: 500;
   text-align: center;
-  font-size: 0.5em;
+  font-size: 0.6em;
   color: black;
   height: 1.5em;
 `;
 
 const Wrapper = styled.section`
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+  padding-left: 0em;
+  padding-right: 0em;
   padding-bottom: 1em;
-  padding-top: 0.5em;
+  padding-top: 0em;
   background: white;
 
   border-radius: 10px;
@@ -82,6 +82,10 @@ class Entry extends React.Component {
       preference: 1,
       didMount: false // for fade-in animation
     };
+    this.restName = props.title;
+    if (this.restName.length > 25) {
+      this.restName = this.restName.substring(0, 25) + "...";
+    }
   }
 
   changeZero() {
@@ -143,45 +147,48 @@ class Entry extends React.Component {
       >
         <Image
           height={"190px"}
-          max-width={"100px"}
+          width={"100%"}
           borderRadius={10}
           margin={0}
           src={this.props.image}
           alt="logo"
         />
 
-        <Title>{this.props.title}</Title>
+        <Title>{this.restName}</Title>
         <Text>
-          {this.props.cuisine.toString().replace(/,/g, " + ")}
+          {this.props.cuisine.toString().replace(/,/g, " • ")}
 
           {this.props.specific[0] === 1 || this.props.specific[1] === 1
-            ? " + "
+            ? " • "
             : ""}
 
           <green>{this.props.specific[0] ? "Vegan🌱 " : "\n"} </green>
           {this.props.specific[0] === 1 && this.props.specific[1] === 1
-            ? " + "
+            ? " • "
             : ""}
           <green>{this.props.specific[1] ? " Vegetarian🌱 " : "\n"} </green>
           {this.props.specific[2] === 1 || this.props.specific[3] === 1
-            ? " + "
+            ? " • "
             : ""}
           {this.props.specific[2] ? " 🍷🍺 " : "\n"}
           {this.props.specific[2] === 1 && this.props.specific[3] === 1
-            ? " + "
+            ? " • "
             : ""}
           {this.props.specific[3] ? " Outdoor-seating☀️⛱️ " : "\n"}
           {this.props.specific[3] === 1 && this.props.specific[4] === 1
-            ? " + "
+            ? " • "
             : ""}
           {this.props.specific[4] ? " Halal " : "\n"}
           {this.props.specific[4] === 1 && this.props.specific[5] === 1
-            ? " + "
+            ? " • "
             : ""}
           {this.props.specific[5] ? " Kosher " : "\n"}
         </Text>
         <TextPrice>
           €{this.props.price_min | 0} ~ €{this.props.price_max | 0}
+        </TextPrice>
+        <TextPrice>
+          ~{(this.props.distance / 0.28) | 0} minutes 🚲 away
         </TextPrice>
         <Flex
           justifyContent={["center", "left"]}

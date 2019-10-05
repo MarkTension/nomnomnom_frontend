@@ -78,13 +78,13 @@ class Initialization extends React.Component {
       this.maxTime = 5;
     }
     if (value === 1) {
-      this.maxTime = 10;
+      this.maxTime = 15;
     }
     if (value === 2) {
-      this.maxTime = 20;
+      this.maxTime = 30;
     }
     if (value === 3) {
-      this.maxTime = 50;
+      this.maxTime = 60;
     }
     this.range = value;
     this.setState({
@@ -192,7 +192,8 @@ class Initialization extends React.Component {
         <div style={rangeStyle}>
           <div style={{ width: "50%" }}>
             <Title>
-              🚲 ride {"<"} {this.maxTime} minutes
+              🚲 ride {this.maxTime != 60 && " < "} {this.maxTime}{" "}
+              {this.maxTime == 60 && " + "} minutes
             </Title>
 
             <Slider

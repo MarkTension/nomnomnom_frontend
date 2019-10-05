@@ -1,6 +1,7 @@
 import React from "react";
 import Discovery from "./Discovery";
 import Initialization from "./Initialization";
+import Instructions from "./Instructions";
 import "../App.css";
 import styled from "styled-components";
 
@@ -14,6 +15,14 @@ const instroStyle = {
   paddingTight: "0%",
   height: "100%"
 };
+const Text = styled.h6`
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: black;
+  font-size: 0.5em;
+  height: 5em;
+`;
 
 const IntroBox = styled.div`
   justify-content: center;
@@ -27,6 +36,7 @@ class Engine extends React.Component {
     super(props);
     this.state = {
       filters: false,
+      instructionsDone: false,
       round: 0
     };
   }
@@ -35,17 +45,23 @@ class Engine extends React.Component {
     return (
       <IntroBox style={instroStyle}>
         {this.state.filters ? (
-          <Discovery
-            key={this.state.round}
-            filters={this.state.filters}
-            setRound={() =>
-              this.setState({
-                round: this.state.round + 1
-              })
-            }
-            setFilters={filters => this.setState({ filters })}
-            round={this.state.round}
-          />
+          this.state.instructionsDone ? (
+            <Discovery
+              key={this.state.round}
+              filters={this.state.filters}
+              setRound={() =>
+                this.setState({
+                  round: this.state.round + 1
+                })
+              }
+              setFilters={filters => this.setState({ filters })}
+              round={this.state.round}
+            />
+          ) : (
+            <Instructions
+              instructionsDone={() => this.setState({ instructionsDone: true })}
+            />
+          )
         ) : (
           <IntroBox style={instroStyle}>
             <Initialization

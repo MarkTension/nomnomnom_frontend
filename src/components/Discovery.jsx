@@ -117,6 +117,7 @@ class Discovery extends React.Component {
           price_min={restaurant.price_min}
           price_max={restaurant.price_max}
           priceAvg={restaurant.price_avg}
+          distance={restaurant.distance}
           image={restaurant.z_image}
           specific={[
             restaurant.vegan,
@@ -203,7 +204,6 @@ class Discovery extends React.Component {
     };
     // put json into new state
     this.unpack_response = function(restaurants) {
-      debugger;
       this.numberRestaurants = restaurants.stats;
       restaurants = restaurants.restaurants;
       var newstate = [];
@@ -238,7 +238,7 @@ class Discovery extends React.Component {
     post["history"] = this.reservoir;
 
     fetch(
-      "http://nomOct2Nr2.863x9hrepg.eu-west-2.elasticbeanstalk.com/restaurant", // "http://locationnomnom.m6r5pgzjxm.eu-west-2.elasticbeanstalk.com/restaurant",
+      "http://nomOkt5.diux6a5vrk.eu-west-2.elasticbeanstalk.com/restaurant", // "http://nomOct2Nr2.863x9hrepg.eu-west-2.elasticbeanstalk.com/restaurant", // "http://locationnomnom.m6r5pgzjxm.eu-west-2.elasticbeanstalk.com/restaurant",
       {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -311,7 +311,6 @@ class Discovery extends React.Component {
               filters={this.props.filters}
             />
           )}
-
           {this.state.show && (
             <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
               {this.components[0]}

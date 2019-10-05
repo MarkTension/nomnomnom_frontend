@@ -6,14 +6,16 @@ import { Box, Flex } from "rebass";
 // import CurrentLocation from "./Map";
 
 const mapStyles = {
-  width: "50%",
+  width: "80%",
   height: "400px"
 };
+
+const mapkey = "IzaSyBJIlVWE-dlLp" + "okGxhwaHBQyFCOtbvVic";
 
 const MapBox = styled.div`
   justify-content: center;
   alignitems: "center";
-  width: 50%;
+  width: 80%;
   height: "400px";
 `;
 
@@ -44,7 +46,7 @@ class MapContainer extends React.Component {
           mapTypeControl={false}
           streetViewControl={false}
           fullscreenControl={false}
-          zoom={13}
+          zoom={13.1}
           style={mapStyles}
           initialCenter={{ lat: this.state.lat, lng: this.state.lng }}
           onClick={(x, y, lat, lng, event) =>
@@ -64,5 +66,5 @@ class MapContainer extends React.Component {
   }
 }
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyBJIlVWE-dlLpokGxhwaHBQyFCOtbvVicw"
+  apiKey: "A" + mapkey + "w"
 })(MapContainer);
