@@ -3,6 +3,7 @@ import "../App.css";
 import styled from "styled-components";
 import { Box, Flex } from "rebass";
 import Entry from "./Entry"; // this is the card for each restaurant
+import EntryMobile from "./EntryMobile"; // this is the card for each restaurant
 import Reservation from "./Reservation"; // this is the card for each restaurant
 import logo from "../images/logo_sq.png";
 import animateScrollTo from "animated-scroll-to";
@@ -29,6 +30,13 @@ const instroStyle = {
   height: "100%",
   marginLeft: "5%",
   marginright: "5%"
+};
+const instroStyleMob = {
+  padding: "0%",
+  height: "100%",
+  marginLeft: "0%",
+  marginright: "0%",
+  justifyContent: "center"
 };
 
 const IntroBox = styled.div`
@@ -105,41 +113,79 @@ class Discovery extends React.Component {
 
       let restaurant = this.state.list[i];
 
-      components.push(
-        <Entry
-          key={keyname}
-          index={i}
-          prefChange={pref => {
-            this.preferences[i] = pref;
-          }} // how to store preferences?
-          title={restaurant.name}
-          cuisine={restaurant.cuisine}
-          price_min={restaurant.price_min}
-          price_max={restaurant.price_max}
-          priceAvg={restaurant.price_avg}
-          distance={restaurant.distance}
-          image={restaurant.z_image}
-          specific={[
-            restaurant.vegan,
-            restaurant.vegetarisch,
-            restaurant.alcohol,
-            restaurant.outside,
-            restaurant.halal,
-            restaurant.kosher
-          ]}
-          type={[
-            restaurant.Type_Ontbijt,
-            restaurant.Type_Brunch,
-            restaurant.Type_Lunch,
-            restaurant.Type_Diner
-          ]}
-          reservation={reserve => {
-            this._isMounted && this.setState({ reservation: i, show: false });
-          }}
-          pref={this.state.show}
-        />
-      );
+      if (isMobile != true) {
+        components.push(
+          <Entry
+            key={keyname}
+            index={i}
+            prefChange={pref => {
+              this.preferences[i] = pref;
+            }} // how to store preferences?
+            title={restaurant.name}
+            cuisine={restaurant.cuisine}
+            price_min={restaurant.price_min}
+            price_max={restaurant.price_max}
+            priceAvg={restaurant.price_avg}
+            distance={restaurant.distance}
+            image={restaurant.z_image}
+            specific={[
+              restaurant.vegan,
+              restaurant.vegetarisch,
+              restaurant.alcohol,
+              restaurant.outside,
+              restaurant.halal,
+              restaurant.kosher
+            ]}
+            type={[
+              restaurant.Type_Ontbijt,
+              restaurant.Type_Brunch,
+              restaurant.Type_Lunch,
+              restaurant.Type_Diner
+            ]}
+            reservation={reserve => {
+              this._isMounted && this.setState({ reservation: i, show: false });
+            }}
+            pref={this.state.show}
+          />
+        );
+      } else {
+        components.push(
+          <EntryMobile
+            key={keyname}
+            index={i}
+            prefChange={pref => {
+              this.preferences[i] = pref;
+            }} // how to store preferences?
+            title={restaurant.name}
+            cuisine={restaurant.cuisine}
+            price_min={restaurant.price_min}
+            price_max={restaurant.price_max}
+            priceAvg={restaurant.price_avg}
+            distance={restaurant.distance}
+            image={restaurant.z_image}
+            specific={[
+              restaurant.vegan,
+              restaurant.vegetarisch,
+              restaurant.alcohol,
+              restaurant.outside,
+              restaurant.halal,
+              restaurant.kosher
+            ]}
+            type={[
+              restaurant.Type_Ontbijt,
+              restaurant.Type_Brunch,
+              restaurant.Type_Lunch,
+              restaurant.Type_Diner
+            ]}
+            reservation={reserve => {
+              this._isMounted && this.setState({ reservation: i, show: false });
+            }}
+            pref={this.state.show}
+          />
+        );
+      }
     }
+
     return components;
   }
 
@@ -270,7 +316,11 @@ class Discovery extends React.Component {
     }
 
     return (
-      <IntroBox id="introbox" style={instroStyle} className="introBox">
+      <IntroBox
+        id="introbox"
+        style={isMobile ? instroStyleMob : instroStyle}
+        className="introBox"
+      >
         <Flex
           id="demo"
           flexWrap="wrap"

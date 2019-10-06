@@ -64,7 +64,7 @@ class Initialization extends React.Component {
       dinner: -1,
       drinks: -1,
       range: 1,
-      maxTime: 10,
+      maxTime: 15,
       latLng: [52.3667, 4.8945]
     };
     this.maxTime = 10;
