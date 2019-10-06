@@ -208,7 +208,7 @@ class Entry extends React.Component {
                   😍
                 </EmojiWrap>
               </Box>
-              <Box p={[1]} height={[1 / 2]}>
+              <Box p={[1]} height={[1 / 2]} width={[1]}>
                 <Button
                   style={{ width: "100%" }}
                   onClick={this.makeResevation.bind(this)}
