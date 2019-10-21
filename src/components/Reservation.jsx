@@ -3,6 +3,9 @@ import "../App.css";
 import styled from "styled-components";
 import { Flex, Box } from "rebass";
 import Entry from "./Entry"; // this is the card for each restaurant
+import EntryMobile from "./EntryMobile"; // this is the card for each restaurant
+import ShareButton from "react-social-share-buttons";
+import { isMobile } from "react-device-detect";
 
 const Title = styled.h1`
   font-family: "Raleway", sans-serif;
@@ -11,8 +14,6 @@ const Title = styled.h1`
   font-size: 1em;
   text-align: center;
   color: black;
-  min-height: 2em;
-  max-height: 2em;
 `;
 
 const Text = styled.h6`
@@ -21,7 +22,6 @@ const Text = styled.h6`
   text-align: center;
   color: black;
   font-size: 0.7em;
-  height: 5em;
 `;
 
 class Reservation extends React.Component {
@@ -38,8 +38,6 @@ class Reservation extends React.Component {
     push["reservation"] = restaurant.name;
     push["filters"] = this.props.filters;
     push["history"] = this.props.history;
-
-    debugger;
 
     this.get_response = function(response) {
       if (response.ok) {
@@ -59,13 +57,22 @@ class Reservation extends React.Component {
   render() {
     const restaurant = this.props.restaurant;
     return (
-      <Flex width="100%" align="left">
-        <Box p={[1]} width={[1, 1 / 4]}>
-          <Entry
+      <Flex flexWrap="wrap" width="100%" align="left">
+        <Box width={[1]}>
+          <Title>
+            You've chosen <b>{restaurant.name}</b>!
+          </Title>
+        </Box>
+
+        {isMobile ? (
+          <EntryMobile
             title={restaurant.name}
             cuisine={restaurant.cuisine}
             price={restaurant.price_min}
             image={restaurant.z_image}
+            price_min={restaurant.price_min}
+            price_max={restaurant.price_max}
+            distance={restaurant.distance}
             specific={[
               restaurant.vegan,
               restaurant.vegetarisch,
@@ -80,23 +87,82 @@ class Reservation extends React.Component {
             ]}
             reservation={true}
           />
-        </Box>
-        <Box p={[1, 10]} m={[1, 5]} width={[1, 3 / 4]}>
-          <Title>
-            You've chosen <b>{restaurant.name}</b>!
-          </Title>
-          <Title>
-            Which is located at <br /> <i>{restaurant.adress}</i>!
-          </Title>
+        ) : (
+          <Box p={[1]} width={[1, 1 / 4]}>
+            <Entry
+              title={restaurant.name}
+              cuisine={restaurant.cuisine}
+              price_min={restaurant.price_min}
+              price_max={restaurant.price_max}
+              image={restaurant.z_image}
+              priceAvg={restaurant.price_avg}
+              distance={restaurant.distance}
+              specific={[
+                restaurant.vegan,
+                restaurant.vegetarisch,
+                restaurant.alcohol,
+                restaurant.outside,
+                restaurant.halal,
+                restaurant.kosher
+              ]}
+              specific={[
+                restaurant.vegan,
+                restaurant.vegetarisch,
+                restaurant.alcohol,
+                restaurant.outside,
+                restaurant.halal,
+                restaurant.kosher
+              ]}
+              reservation={true}
+            />
+          </Box>
+        )}
 
-          <Text style={{ marginLeft: "20%", marginRight: "20%" }}>
+        <Box width={[1, 3 / 4]}>
+          <Title>Which is located at:</Title>
+          <Text>{restaurant.adress}</Text>
+          <Text>
             In beta stage we'll not be able to redirect you yet, but please go
-            ahead and enjoy your food there:)
+            ahead and enjoy your food/drinks there:)
             <br />
             <br />
             As we're still testing the concept and user experience, please fill
             out this form:
           </Text>
+          <iframe
+            src="https://giphy.com/embed/HEkBXK8qnIRuo"
+            height="null"
+            frameBorder="0"
+            class="giphy-embed"
+            allowFullScreen
+          />
+          <center>
+            <div style={{ width: "10%" }}>
+              <ShareButton
+                compact
+                socialMedia={"facebook"}
+                media={"https://imgs.xkcd.com/comics/error_code.png"}
+                url={"nomnomnom.ai"}
+                text={"hello"}
+                sharetext={"hello"}
+              />
+
+              <ShareButton
+                compact
+                socialMedia={"twitter"}
+                media={
+                  "https://github.com/MarkTension/nomnomnom_frontend/blob/master/src/images/logo_sq.png"
+                }
+                url={"nomnomnom.ai"}
+                media={"https://imgs.xkcd.com/comics/error_code.png"}
+                text={
+                  "Woah, I've discovered " +
+                  restaurant.name +
+                  " with nomnomnom.ai . Check it!"
+                }
+              />
+            </div>
+          </center>
         </Box>
       </Flex>
     );

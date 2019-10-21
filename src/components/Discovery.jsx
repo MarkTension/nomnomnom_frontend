@@ -9,6 +9,12 @@ import logo from "../images/logo_sq.png";
 import animateScrollTo from "animated-scroll-to";
 import { isMobile } from "react-device-detect";
 
+import {
+  SwipeableList,
+  SwipeableListItem
+} from "@sandstreamdev/react-swipeable-list";
+import "@sandstreamdev/react-swipeable-list/dist/styles.css";
+
 const TextSub = styled.h2`
   font-family: "Raleway", sans-serif;
   font-weight: 300;
@@ -29,10 +35,12 @@ const instroStyle = {
   padding: "5%",
   height: "100%",
   marginLeft: "5%",
-  marginright: "5%"
+  marginright: "5%",
+  width: "80%"
 };
 const instroStyleMob = {
   padding: "0%",
+  width: "100%",
   height: "100%",
   marginLeft: "0%",
   marginright: "0%",
@@ -43,7 +51,16 @@ const IntroBox = styled.div`
   justify-content: center;
   alignitems: "center";
   background: white;
-  width: 80%;
+`;
+
+const Text = styled.h6`
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  font-size: 0.5em;
+  height: 5em;
+  text-overflow: clip;
 `;
 
 const Button = styled.button`
@@ -113,42 +130,52 @@ class Discovery extends React.Component {
 
       let restaurant = this.state.list[i];
 
-      if (isMobile != true) {
+      if (isMobile !== true) {
+        if (restaurant.cuisine.length >= 2) {
+          restaurant.cuisine = restaurant.cuisine.slice(0, 2);
+        }
         components.push(
-          <Entry
-            key={keyname}
-            index={i}
-            prefChange={pref => {
-              this.preferences[i] = pref;
-            }} // how to store preferences?
-            title={restaurant.name}
-            cuisine={restaurant.cuisine}
-            price_min={restaurant.price_min}
-            price_max={restaurant.price_max}
-            priceAvg={restaurant.price_avg}
-            distance={restaurant.distance}
-            image={restaurant.z_image}
-            specific={[
-              restaurant.vegan,
-              restaurant.vegetarisch,
-              restaurant.alcohol,
-              restaurant.outside,
-              restaurant.halal,
-              restaurant.kosher
-            ]}
-            type={[
-              restaurant.Type_Ontbijt,
-              restaurant.Type_Brunch,
-              restaurant.Type_Lunch,
-              restaurant.Type_Diner
-            ]}
-            reservation={reserve => {
-              this._isMounted && this.setState({ reservation: i, show: false });
-            }}
-            pref={this.state.show}
-          />
+          <Box p={[1]} width={[1, 1 / 2, 1 / 5]}>
+            <Entry
+              key={keyname}
+              index={i}
+              prefChange={pref => {
+                this.preferences[i] = pref;
+              }} // how to store preferences?
+              title={restaurant.name}
+              cuisine={restaurant.cuisine}
+              price_min={restaurant.price_min}
+              price_max={restaurant.price_max}
+              priceAvg={restaurant.price_avg}
+              distance={restaurant.distance}
+              image={restaurant.z_image}
+              specific={[
+                restaurant.vegan,
+                restaurant.vegetarisch,
+                restaurant.alcohol,
+                restaurant.outside,
+                restaurant.halal,
+                restaurant.kosher
+              ]}
+              type={[
+                restaurant.Type_Ontbijt,
+                restaurant.Type_Brunch,
+                restaurant.Type_Lunch,
+                restaurant.Type_Diner
+              ]}
+              reservation={reserve => {
+                this._isMounted &&
+                  this.setState({ reservation: i, show: false });
+              }}
+              pref={this.state.show}
+            />
+          </Box>
         );
       } else {
+        if (restaurant.cuisine.length >= 2) {
+          restaurant.cuisine = restaurant.cuisine.slice(0, 2);
+        }
+
         components.push(
           <EntryMobile
             key={keyname}
@@ -213,7 +240,6 @@ class Discovery extends React.Component {
 
       for (let i = 0; i < this.reservoir[this.cycle].length; i++) {
         // delete images for the reservoir
-        // delete this.reservoir[this.cycle][i].z_image; TODO: delete z_image
       }
     }
   }
@@ -339,7 +365,6 @@ class Discovery extends React.Component {
             </TextSub>
             <Button onClick={this.reactThis.bind(this)}> Go Back </Button>
           </Box>
-
           <Box id="cards_view" p={2} width={1} align="center" ref="umountable">
             <Box p={[1]} width={[1]}>
               {this.state.show_load && (
@@ -352,7 +377,6 @@ class Discovery extends React.Component {
               )}
             </Box>
           </Box>
-
           {this.state.reservation !== false && (
             <Reservation
               cycle={this.state.round}
@@ -362,31 +386,67 @@ class Discovery extends React.Component {
             />
           )}
           {this.state.show && (
-            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-              {this.components[0]}
-            </Box>
+            <Flex flexWrap="wrap" width="100%">
+              {this.isMobile ? (
+                <SwipeableList>{this.components}</SwipeableList>
+              ) : (
+                this.components
+              )}
+            </Flex>
           )}
 
-          {this.state.show && (
-            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-              {this.components[1]}
-            </Box>
-          )}
-          {this.state.show && (
-            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-              {this.components[2]}
-            </Box>
-          )}
-          {this.state.show && (
-            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-              {this.components[3]}
-            </Box>
-          )}
-          {this.state.show && (
-            <Box className="basket" p={[1]} width={[1, 1 / 2, 1 / 5]}>
-              {this.components[4]}
-            </Box>
-          )}
+          <Flex flexWrap="wrap" width="100%">
+            <SwipeableList>
+              <SwipeableListItem
+                threshold={0.2}
+                style={{ marginTop: "0px" }}
+                swipeLeft={{
+                  content: <span style={{ fontSize: "3em" }}>😍</span>,
+                  action: () => this.changeTwo()
+                }}
+                swipeRight={{
+                  content: <span style={{ fontSize: "3em" }}>😒</span>,
+                  action: () => this.changeZero()
+                }}
+              >
+                <div>
+                  <Text> hello</Text>
+                </div>
+              </SwipeableListItem>
+              <SwipeableListItem
+                threshold={0.2}
+                style={{ marginTop: "0px" }}
+                swipeLeft={{
+                  content: <span style={{ fontSize: "3em" }}>😍</span>,
+                  action: () => this.changeTwo()
+                }}
+                swipeRight={{
+                  content: <span style={{ fontSize: "3em" }}>😒</span>,
+                  action: () => this.changeZero()
+                }}
+              >
+                <div>
+                  <Text> hello</Text>
+                </div>
+              </SwipeableListItem>
+              <SwipeableListItem
+                threshold={0.2}
+                style={{ marginTop: "0px" }}
+                swipeLeft={{
+                  content: <span style={{ fontSize: "3em" }}>😍</span>,
+                  action: () => this.changeTwo()
+                }}
+                swipeRight={{
+                  content: <span style={{ fontSize: "3em" }}>😒</span>,
+                  action: () => this.changeZero()
+                }}
+              >
+                <div>
+                  <Text> hello</Text>
+                </div>
+              </SwipeableListItem>
+            </SwipeableList>
+          </Flex>
 
           {this.state.reservation === false ? (
             <Button2 onClick={this.clickNextRestaurant}>
@@ -395,16 +455,6 @@ class Discovery extends React.Component {
           ) : (
             " "
           )}
-
-          <Box p={2} width={1} align="center">
-            <TextSub>Specify preference with emoji's*</TextSub>
-            <TextSub2>
-              <i>
-                *This trains our algorithms to come up with better matching
-                discoveries in the next round
-              </i>
-            </TextSub2>
-          </Box>
         </Flex>
       </IntroBox>
     );

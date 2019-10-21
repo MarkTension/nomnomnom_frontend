@@ -39,6 +39,7 @@ const Text = styled.h6`
   color: black;
   font-size: 0.5em;
   height: 5em;
+  text-overflow: clip;
 `;
 
 const TextPrice = styled.h6`
@@ -62,6 +63,11 @@ const Wrapper = styled.section`
   box-shadow: 2px 2px 2px Gainsboro;
   shadowopacity: 0.1;
 `;
+
+const imageStyler = {
+  objectFit: "cover",
+  resizeMode: "contain"
+};
 
 const EmojiWrap = styled.span`
   margin-left: 5%;
@@ -146,6 +152,7 @@ class Entry extends React.Component {
         id="entry_wrapper"
       >
         <Image
+          style={imageStyler}
           height={"190px"}
           width={"100%"}
           borderRadius={10}
@@ -206,7 +213,7 @@ class Entry extends React.Component {
                     this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
                 }}
               >
-                🙁
+                😒
               </EmojiWrap>
             </Box>
 

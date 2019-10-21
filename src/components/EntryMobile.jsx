@@ -3,16 +3,28 @@ import "../App.css";
 import styled from "styled-components";
 import { Flex, Box, Image } from "rebass";
 import { isMobile } from "react-device-detect";
+import {
+  SwipeableList,
+  SwipeableListItem
+} from "@sandstreamdev/react-swipeable-list";
+import "@sandstreamdev/react-swipeable-list/dist/styles.css";
 
 const Title = styled.h1`
   font-family: "Raleway", sans-serif;
   font-style: slim;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 0.8em;
   text-align: center;
   color: black;
-  min-height: 2em;
-  max-height: 2em;
+  margin-top: 0px;
+  width: 100%;
+`;
+
+const IntroBox = styled.div`
+  justify-content: center;
+  alignitems: "center";
+  background: white;
+  min-width: 100%;
 `;
 
 const Button = styled.button`
@@ -34,11 +46,10 @@ const Button = styled.button`
 
 const Text = styled.h6`
   font-family: "Raleway", sans-serif;
-  font-weight: bold;
   text-align: center;
+  font-weight: 100;
   color: black;
   font-size: 0.5em;
-  height: 5em;
 `;
 
 const TextPrice = styled.h6`
@@ -49,6 +60,7 @@ const TextPrice = styled.h6`
   color: black;
   margin-top: 0px;
   margin-bottom: 0px;
+  font-weight: 100;
 `;
 
 const flexStyle = {
@@ -56,13 +68,22 @@ const flexStyle = {
   paddingRight: "0em",
   paddingBottom: "0em",
   paddingTop: "0em",
+  marginTop: "0em",
   background: "white",
   borderRadius: "10px"
 };
 
+const imageStyle = {
+  objectFit: "cover",
+  resizeMode: "contain"
+};
+const spanStyle = {
+  color: "black",
+  fontSize: "0.6em",
+  fontWeight: "100"
+};
+
 const EmojiWrap = styled.span`
-  margin-left: 5%;
-  margin-right: 5%;
   font-size: 1.5em;
 `;
 
@@ -76,7 +97,7 @@ class Entry extends React.Component {
     };
     this.restName = props.title;
     if (this.restName.length > 25) {
-      this.restName = this.restName.substring(0, 25) + "...";
+      this.restName = this.restName.substring(0, 20) + "...";
     }
   }
 
@@ -131,95 +152,104 @@ class Entry extends React.Component {
     const { didMount } = this.state;
 
     return (
-      <Flex style={flexStyle}>
-        <Box p={[1]} width={[1 / 3]}>
-          <Title>{this.restName}</Title>
-          <Image
-            position="relative"
-            width={"100%"}
-            height="50%"
-            borderRadius={10}
-            margin={0}
-            src={this.props.image}
-            alt="logo"
-          />
-        </Box>
-        <Box p={[1]} width={[1 / 2]}>
-          <Text>
-            {this.props.cuisine.toString().replace(/,/g, " • ")}
+      <SwipeableListItem
+        threshold={0.2}
+        style={{ marginTop: "0px" }}
+        swipeLeft={{
+          content: <span style={{ fontSize: "3em" }}>😍</span>,
+          action: () => this.changeTwo()
+        }}
+        swipeRight={{
+          content: <span style={{ fontSize: "3em" }}>😒</span>,
+          action: () => this.changeZero()
+        }}
+      >
+        <Flex
+          justifyContent={["center", "left"]}
+          flexDirection="row"
+          flexWrap="wrap"
+          width="100%"
+          style={flexStyle}
+        >
+          <Box p={[1]} width={3 / 7}>
+            <Image
+              overflow="hidden"
+              style={imageStyle}
+              height="100px"
+              width="100%"
+              borderRadius={10}
+              margin={0}
+              src={this.props.image}
+              alt="restaurantImage"
+            />
+          </Box>
+          <Box p={[1]} width={3 / 7}>
+            <Title>{this.restName}</Title>
 
-            {this.props.specific[0] === 1 || this.props.specific[1] === 1
-              ? " • "
-              : ""}
+            <Text style={{ marginTop: "0px", height: "30px" }}>
+              {this.props.cuisine.toString().replace(/,/g, " • ")}
 
-            <green>{this.props.specific[0] ? "Vegan🌱 " : "\n"} </green>
-            {this.props.specific[0] === 1 && this.props.specific[1] === 1
-              ? " • "
-              : ""}
-            <green>{this.props.specific[1] ? " Vegetarian🌱 " : "\n"} </green>
-            {this.props.specific[2] === 1 || this.props.specific[3] === 1
-              ? " • "
-              : ""}
-            {this.props.specific[2] ? " 🍷🍺 " : "\n"}
-            {this.props.specific[2] === 1 && this.props.specific[3] === 1
-              ? " • "
-              : ""}
-            {this.props.specific[3] ? " Outdoor-seating☀️⛱️ " : "\n"}
-            {this.props.specific[3] === 1 && this.props.specific[4] === 1
-              ? " • "
-              : ""}
-            {this.props.specific[4] ? " Halal " : "\n"}
-            {this.props.specific[4] === 1 && this.props.specific[5] === 1
-              ? " • "
-              : ""}
-            {this.props.specific[5] ? " Kosher " : "\n"}
-          </Text>
-          <TextPrice>
-            €{this.props.price_min | 0} ~ €{this.props.price_max | 0}
-          </TextPrice>
-          <TextPrice>
-            ~{(this.props.distance / 0.28) | 0} minutes 🚲 away
-          </TextPrice>
-        </Box>
-        <Box p={[1]} width={[1 / 6]}>
+              {this.props.specific[0] === 1 || this.props.specific[1] === 1
+                ? " • "
+                : ""}
+
+              <green>{this.props.specific[0] ? "Vegan🌱 " : "\n"} </green>
+              {this.props.specific[0] === 1 && this.props.specific[1] === 1
+                ? " • "
+                : ""}
+              <green>{this.props.specific[1] ? " Vegetarian🌱 " : "\n"} </green>
+              {this.props.specific[2] === 1 || this.props.specific[3] === 1
+                ? " • "
+                : ""}
+              {this.props.specific[2] ? " 🍷🍺 " : "\n"}
+              {this.props.specific[2] === 1 && this.props.specific[3] === 1
+                ? " • "
+                : ""}
+              {this.props.specific[3] ? " Outdoor-seating☀️⛱️ " : "\n"}
+              {this.props.specific[3] === 1 && this.props.specific[4] === 1
+                ? " • "
+                : ""}
+              {this.props.specific[4] ? " Halal " : "\n"}
+              {this.props.specific[4] === 1 && this.props.specific[5] === 1
+                ? " • "
+                : ""}
+              {this.props.specific[5] ? " Kosher " : "\n"}
+            </Text>
+
+            {this.state.preference == 1 && (
+              <div>
+                <span style={spanStyle}>
+                  €{this.props.price_min | 0} ~ €{this.props.price_max | 0}
+                </span>
+                <span style={spanStyle}> </span>
+                <span style={spanStyle}> </span>
+                <span style={spanStyle}>
+                  ~{(this.props.distance / 0.28) | 0} minutes 🚲
+                </span>
+              </div>
+            )}
+
+            <EmojiWrap>{this.state.preference === 0 && "😒"}</EmojiWrap>
+            <EmojiWrap>{this.state.preference === 2 && "😍"}</EmojiWrap>
+          </Box>
           {this.props.reservation !== true && (
-            <Flex flexDirection="column" id="demo" flexWrap="wrap" width="100%">
-              <Box p={[1]} height={[1 / 5]}>
-                <EmojiWrap
-                  id="emo0"
-                  onClick={() => this.changeZero()}
-                  style={{
-                    transform:
-                      this.state.preference === 0 ? "scale(1.5)" : "scale(1)"
-                  }}
-                >
-                  🙁
-                </EmojiWrap>
-              </Box>
-              <Box p={[1]} height={[1 / 5]}>
-                <EmojiWrap
-                  id="emo2"
-                  onClick={() => this.changeTwo()}
-                  style={{
-                    transform:
-                      this.state.preference === 2 ? "scale(1.5)" : "scale(1)"
-                  }}
-                >
-                  😍
-                </EmojiWrap>
-              </Box>
-              <Box p={[1]} height={[1 / 2]} width={[1]}>
-                <Button
-                  style={{ width: "100%" }}
-                  onClick={this.makeResevation.bind(this)}
-                >
-                  Make Reservation
-                </Button>
-              </Box>
-            </Flex>
+            <Box p={[1]} height={1 / 7} style={{ marginTop: "0px" }}>
+              <Button
+                style={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                  width: "100%",
+                  height: "100%",
+                  marginRight: "5%"
+                }}
+                onClick={this.makeResevation.bind(this)}
+              >
+                B<br />o<br />o<br />k
+              </Button>
+            </Box>
           )}
-        </Box>
-      </Flex>
+        </Flex>
+      </SwipeableListItem>
     );
   }
 }

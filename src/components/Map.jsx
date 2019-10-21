@@ -10,6 +10,15 @@ const mapStyles = {
   height: "400px"
 };
 
+const Text = styled.h6`
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  font-size: 0.5em;
+  height: 5em;
+`;
+
 const mapkey = "IzaSyBJIlVWE-dlLp" + "okGxhwaHBQyFCOtbvVic";
 
 const MapBox = styled.div`
@@ -25,13 +34,17 @@ class MapContainer extends React.Component {
     this.state = {
       lat: 52.3667,
       lng: 4.8945,
-      latLng: [52.3667, 4.8945],
+      latLng: [this.props.latLng.lat, this.props.latLng.lng],
       key: false
     };
   }
 
   componentWillUnmount() {
     this.setState({ key: false });
+  }
+
+  componentDidMount() {
+    console.log("map mounted with " + this.props.latLng);
   }
 
   changeMarker(x, y, lat, lng, event) {
@@ -46,15 +59,22 @@ class MapContainer extends React.Component {
           mapTypeControl={false}
           streetViewControl={false}
           fullscreenControl={false}
+          searchBar={true}
           zoom={13.1}
           style={mapStyles}
-          initialCenter={{ lat: this.state.lat, lng: this.state.lng }}
+          initialCenter={{
+            lat: this.props.latLng[0],
+            lng: this.props.latLng[1]
+          }}
           onClick={(x, y, lat, lng, event) =>
             this.changeMarker(x, y, lat, lng, event)
           }
         >
           <Marker
-            position={{ lat: this.props.latLng[0], lng: this.props.latLng[1] }}
+            position={{
+              lat: this.props.latLng[0],
+              lng: this.props.latLng[1]
+            }}
           >
             <InfoWindow visible={true}>
               <h4>Something is there!</h4>

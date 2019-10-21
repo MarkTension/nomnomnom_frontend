@@ -12,7 +12,7 @@ const instroStyle = {
   marginright: "0%",
   paddingTop: "0%",
   paddingLeft: "0%",
-  paddingTight: "0%",
+  paddingRight: "0%",
   height: "100%"
 };
 const Text = styled.h6`
@@ -25,7 +25,7 @@ const Text = styled.h6`
 `;
 
 const IntroBox = styled.div`
-  justify-content: center;
+  justify-content: "center";
   alignitems: "center";
   background: white;
   width: 100%;
@@ -63,12 +63,12 @@ class Engine extends React.Component {
             />
           )
         ) : (
-          <IntroBox style={instroStyle}>
+          <div>
             <Initialization
               setFilters={filters => this.setState({ filters })}
               tester={this.state.filters}
             />
-          </IntroBox>
+          </div>
         )}
       </IntroBox>
     );
